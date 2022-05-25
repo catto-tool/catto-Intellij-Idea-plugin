@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bad9a15-8f4c-4475-9403-48f916422bd7" name="Changes" comment="related to issue #3. &#10;The whatTests.jar file is placed in resource folder, and it is copied in a temporary folder at runtime when we need it.">
+    <list default="true" id="2bad9a15-8f4c-4475-9403-48f916422bd7" name="Changes" comment="related to issue #2. &#10;The plugin now check if there is an installation of Java 1.8 on the system and use it to lunch whatTests.jar.">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/close.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/CommitFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/CommitFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/whatTests.jar" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/whatTests.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +62,13 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -82,6 +92,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "last_opened_file_path": "/Users/ncdaam/IdeaProjects/whatTestsPlugin/src/main/resources",
     "node.js.detected.package.eslint": "true",
@@ -171,7 +182,7 @@
       <workItem from="1652891331045" duration="5302000" />
       <workItem from="1652957899184" duration="885000" />
       <workItem from="1652960867330" duration="39749000" />
-      <workItem from="1653400140584" duration="28545000" />
+      <workItem from="1653400140584" duration="47913000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1653465050689</created>
@@ -222,7 +233,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653492008707</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="related to issue #2. &#10;The plugin now check if there is an installation of Java 1.8 on the system and use it to lunch whatTests.jar.">
+      <created>1653494357356</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1653494357356</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -245,7 +263,8 @@
     </ignored-roots>
     <MESSAGE value="first commit" />
     <MESSAGE value="related to issue #3. &#10;The whatTests.jar file is placed in resource folder, and it is copied in a temporary folder at runtime when we need it." />
-    <option name="LAST_COMMIT_MESSAGE" value="related to issue #3. &#10;The whatTests.jar file is placed in resource folder, and it is copied in a temporary folder at runtime when we need it." />
+    <MESSAGE value="related to issue #2. &#10;The plugin now check if there is an installation of Java 1.8 on the system and use it to lunch whatTests.jar." />
+    <option name="LAST_COMMIT_MESSAGE" value="related to issue #2. &#10;The plugin now check if there is an installation of Java 1.8 on the system and use it to lunch whatTests.jar." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -259,16 +278,6 @@
           <url>jar://$PROJECT_DIR$/whatTest.jar!/testselector/util/ClassPathUpdater.class</url>
           <line>48</line>
           <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/CommitFactory.java</url>
-          <line>137</line>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/CommitFactory.java</url>
-          <line>162</line>
-          <option name="timeStamp" value="35" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
