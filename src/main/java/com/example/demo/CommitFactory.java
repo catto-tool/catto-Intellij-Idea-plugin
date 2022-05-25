@@ -58,77 +58,32 @@ public class CommitFactory extends CheckinHandlerFactory {
                 int valore = JOptionPane.showOptionDialog(null, "Choose one configuration", "Select a configuration", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, configs.toArray(), configs.get(0));
                 if (valore != JOptionPane.CLOSED_OPTION) {
 
-
                     Executor executorToUse = DefaultRunExecutor.getRunExecutorInstance();
 
                     try {
                         ExecutionEnvironmentBuilder.create(panel.getProject(), executorToUse, configs.get(valore)).build();
-                        Module @NotNull [] modules = ModuleManager.getInstance(panel.getProject()).getModules();
-                        List<String> paths = new ArrayList<>();
 
-                        final List<String> libraryNames = new ArrayList<String>();
-                        for (Module m : modules) {
-                            paths.add(Objects.requireNonNull(Objects.requireNonNull(CompilerModuleExtension.getInstance(m)).getCompilerOutputUrl()).replace("file://", ""));
-                            paths.add(Objects.requireNonNull(Objects.requireNonNull(CompilerModuleExtension.getInstance(m)).getCompilerOutputUrlForTests()).replace("file://", ""));
-                            ;
-
-
-                            ModuleRootManager.getInstance(m).orderEntries().forEachLibrary(library -> {
-                                for (VirtualFile vf : library.getFiles(OrderRootType.SOURCES)) {
-                                    libraryNames.add(vf.getPath().replace("!/", ""));
-                                }
-                                for (VirtualFile vf : library.getFiles(OrderRootType.CLASSES)) {
-                                    libraryNames.add(vf.getPath().replace("!/", ""));
-                                }
-
-                                return true;
-                            });
-                            Messages.showInfoMessage(StringUtil.join(libraryNames, "\n"), "Libraries in Module");
-
-
-                        }
                         ProjectJdkTable jdkTable = ProjectJdkTable.getInstance();
                         String jdkPath = "";
 
                         Sdk[] sq = jdkTable.getAllJdks();
-
+                        String Java8InstallationPath = "";
                         for (Sdk k : sq) {
-                            if (k.getSdkType().equals(jdkTable.getDefaultSdkType())) {
-                                jdkPath = k.getHomePath();
-                                Messages.showInfoMessage(jdkPath, "JDK PATH");
-
+                            if (k.getName().equals("1.8")) {
+                                if (k.getHomePath() != null)
+                                    Java8InstallationPath = k.getHomePath();
                             }
-
-                        }
-                        jdkPath = "/Library/Java/JavaVirtualMachines/jdk1.8.0_202.jdk/Contents/Home/jre/lib";
-                        assert jdkPath != null;
-
-                        List<File> file = (List<File>) FileUtils.listFiles(new File(jdkPath), TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
-                        for (File f : file) {
-                            libraryNames.addAll(listf(f.getAbsolutePath()));
                         }
 
-                        //libraryNames.add("/Library/Java/JavaVirtualMachines/liberica-1.8.0_332/jre/lib/jce.jar");
-                        //libraryNames.add("/Library/Java/JavaVirtualMachines/liberica-1.8.0_332/jre/lib/rt.jar");
+                        if (Java8InstallationPath.equals("")) {
+                            Messages.showInfoMessage("whatTest could not find java 8 installation on yout system. Please install it and relunch the plugin", "WhatTests:JAVA V.1.8 not Installed");
+                        }else{
 
-
-
-                        /*
-                        Project p = new PreviousProject(libraryNames.toArray(new String[0]), paths.toArray(new String[0]));
-                        Project p1 = new NewProject(libraryNames.toArray(new String[0]), Paths.get(Objects.requireNonNull(panel.getProject().getBasePath()), "pippo" ).toString());
-                        FromTheBottom rta = new FromTheBottom(p,p1);
-                        Set<Test> selectedTest = rta.selectTest();;
-                        for (Test t : selectedTest ){
-                            Runner.run(t, libraryNames.toArray(new String[0]), paths);
-                        }
-
-
-*/
                         Path tmp = Paths.get(Objects.requireNonNull(panel.getProject().getBasePath()), ".whatTests", "jarTmp");
-                        extractContentFromJar(Objects.requireNonNull(getClass().getClassLoader().getResource("whatTests.jar")).toString().replace("whatTests.jar", ""), tmp.toString());
+                        String whatTestTmpPath = extractContentFromJar(Objects.requireNonNull(getClass().getClassLoader().getResource("whatTests.jar")).toString().replace("whatTests.jar", ""), tmp.toString());
 
-
-                        ProcessBuilder pb = new ProcessBuilder("java", "-jar", Paths.get(Objects.requireNonNull(panel.getProject().getBasePath()), ".whatTests", "jarTmp", "whatTests.jar").toString(), panel.getProject().getBasePath());
+                        String binJava8 = Paths.get(Java8InstallationPath, "bin", "java").toString();
+                        ProcessBuilder pb = new ProcessBuilder(binJava8, "-jar", whatTestTmpPath, panel.getProject().getBasePath());
                         Process p = pb.start();
                         p.waitFor();
 
@@ -153,9 +108,9 @@ public class CommitFactory extends CheckinHandlerFactory {
                         }
                         result = builder.toString();
                         System.out.println(result);
-
-
-                    } catch (ExecutionException e) {
+                    }
+                }
+                    catch (ExecutionException e) {
                         throw new RuntimeException(e);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -164,9 +119,7 @@ public class CommitFactory extends CheckinHandlerFactory {
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
-
-
-                }
+            }
 
                 valore = JOptionPane.showConfirmDialog(null, "Do you want commit?", "Commit confirmation", JOptionPane.YES_NO_OPTION);
                 if (valore == 0)
@@ -203,7 +156,7 @@ public class CommitFactory extends CheckinHandlerFactory {
     }
 
 
-    public void extractContentFromJar(String uri, String dest) throws Exception {
+    public String extractContentFromJar(String uri, String dest) throws Exception {
         URL location = null;
         try {
             location = new URL(uri);
@@ -212,6 +165,7 @@ public class CommitFactory extends CheckinHandlerFactory {
         }
         assert location != null;
         String jarPath = location.getPath().replace("file:", "").replace("!", "");
+        String resultPath = "";
 
         try {
             JarInputStream jar = new JarInputStream(new FileInputStream(jarPath));
@@ -223,6 +177,7 @@ public class CommitFactory extends CheckinHandlerFactory {
                 if (jarEntryName.equals("whatTests.jar")) {
                     try {
                         entry = new File(dest, jarEntryName);
+                        resultPath = entry.getPath();
 
                         if (entry.createNewFile()) {
 
@@ -247,6 +202,7 @@ public class CommitFactory extends CheckinHandlerFactory {
         } catch (Exception e) {
             throw new Exception("Error on create temp file");
         }
+        return resultPath;
     }
 }
 

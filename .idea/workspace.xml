@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bad9a15-8f4c-4475-9403-48f916422bd7" name="Changes" comment="first commit">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/whatTests.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="2bad9a15-8f4c-4475-9403-48f916422bd7" name="Changes" comment="related to issue #3. &#10;The whatTests.jar file is placed in resource folder, and it is copied in a temporary folder at runtime when we need it.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/CommitFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/CommitFactory.java" afterDir="false" />
     </list>
@@ -173,7 +171,7 @@
       <workItem from="1652891331045" duration="5302000" />
       <workItem from="1652957899184" duration="885000" />
       <workItem from="1652960867330" duration="39749000" />
-      <workItem from="1653400140584" duration="26075000" />
+      <workItem from="1653400140584" duration="28545000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1653465050689</created>
@@ -217,7 +215,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653467951982</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="related to issue #3. &#10;The whatTests.jar file is placed in resource folder, and it is copied in a temporary folder at runtime when we need it.">
+      <created>1653492008707</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1653492008707</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -239,7 +244,8 @@
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
     <MESSAGE value="first commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="first commit" />
+    <MESSAGE value="related to issue #3. &#10;The whatTests.jar file is placed in resource folder, and it is copied in a temporary folder at runtime when we need it." />
+    <option name="LAST_COMMIT_MESSAGE" value="related to issue #3. &#10;The whatTests.jar file is placed in resource folder, and it is copied in a temporary folder at runtime when we need it." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -253,6 +259,16 @@
           <url>jar://$PROJECT_DIR$/whatTest.jar!/testselector/util/ClassPathUpdater.class</url>
           <line>48</line>
           <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/CommitFactory.java</url>
+          <line>137</line>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/CommitFactory.java</url>
+          <line>162</line>
+          <option name="timeStamp" value="35" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
