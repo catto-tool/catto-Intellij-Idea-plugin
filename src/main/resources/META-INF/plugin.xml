@@ -1,0 +1,38 @@
+<idea-plugin>
+    <name>whaTest</name>
+    <id>fi.tampere.whatests</id>
+    <description><![CDATA[
+    A Plug-in for Automated Code Smell Detection and Refactoring
+    ]]>
+    </description>
+
+    <change-notes><![CDATA[
+      Updated support for newer IntelliJ versions
+      <a href="https://github.com/simgam/cASpER">View current version.</a>
+
+    ]]>
+    </change-notes>
+
+
+
+    <vendor url="https://www.unisa.it/" email="seschool@unisa.it">SESA Lab.</vendor>
+    <extensions defaultExtensionNs="com.intellij">
+        <checkinHandlerFactory implementation="com.example.demo.CommitFactory"/>
+    </extensions>
+
+    <actions>
+        <!--
+        <group id="org.jetbrains.tutorials.actions.GroupedActions" text="CASpER - Analyze Project" popup="true">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+            <action id="`com.example.demo.BeginAction" class="com.example.demo.BeginAction"
+                    text="Run Plug-in"/>
+        </group>
+        -->
+    </actions>
+
+
+    <application-components>
+        <!-- Add your application components here -->
+    </application-components>
+
+</idea-plugin>
