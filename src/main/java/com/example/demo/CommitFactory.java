@@ -24,13 +24,23 @@ import org.jetbrains.annotations.NotNull;
 
 
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.JarURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.jar.JarInputStream;
 
 import com.intellij.openapi.projectRoots.Sdk;
+
+
+import static com.ibm.icu.impl.ClassLoaderUtil.getClassLoader;
 
 public class CommitFactory extends CheckinHandlerFactory {
 
@@ -45,7 +55,7 @@ public class CommitFactory extends CheckinHandlerFactory {
 
 
                 List<RunConfiguration> configs = runManager.getAllConfigurationsList();
-                int valore = JOptionPane.showOptionDialog(null,"Choose one configuration", "Select a configuration", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,  null, configs.toArray(), configs.get(0));
+                int valore = JOptionPane.showOptionDialog(null, "Choose one configuration", "Select a configuration", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, configs.toArray(), configs.get(0));
                 if (valore != JOptionPane.CLOSED_OPTION) {
 
 
@@ -57,16 +67,17 @@ public class CommitFactory extends CheckinHandlerFactory {
                         List<String> paths = new ArrayList<>();
 
                         final List<String> libraryNames = new ArrayList<String>();
-                        for(Module m : modules){
+                        for (Module m : modules) {
                             paths.add(Objects.requireNonNull(Objects.requireNonNull(CompilerModuleExtension.getInstance(m)).getCompilerOutputUrl()).replace("file://", ""));
-                            paths.add(Objects.requireNonNull(Objects.requireNonNull(CompilerModuleExtension.getInstance(m)).getCompilerOutputUrlForTests()).replace("file://", ""));;
+                            paths.add(Objects.requireNonNull(Objects.requireNonNull(CompilerModuleExtension.getInstance(m)).getCompilerOutputUrlForTests()).replace("file://", ""));
+                            ;
 
 
                             ModuleRootManager.getInstance(m).orderEntries().forEachLibrary(library -> {
-                                for (VirtualFile vf: library.getFiles(OrderRootType.SOURCES)){
+                                for (VirtualFile vf : library.getFiles(OrderRootType.SOURCES)) {
                                     libraryNames.add(vf.getPath().replace("!/", ""));
                                 }
-                                for (VirtualFile vf: library.getFiles(OrderRootType.CLASSES)){
+                                for (VirtualFile vf : library.getFiles(OrderRootType.CLASSES)) {
                                     libraryNames.add(vf.getPath().replace("!/", ""));
                                 }
 
@@ -79,10 +90,10 @@ public class CommitFactory extends CheckinHandlerFactory {
                         ProjectJdkTable jdkTable = ProjectJdkTable.getInstance();
                         String jdkPath = "";
 
-                        Sdk[] sq= jdkTable.getAllJdks();
+                        Sdk[] sq = jdkTable.getAllJdks();
 
-                        for (Sdk k : sq ){
-                            if (k.getSdkType().equals(jdkTable.getDefaultSdkType())){
+                        for (Sdk k : sq) {
+                            if (k.getSdkType().equals(jdkTable.getDefaultSdkType())) {
                                 jdkPath = k.getHomePath();
                                 Messages.showInfoMessage(jdkPath, "JDK PATH");
 
@@ -93,7 +104,7 @@ public class CommitFactory extends CheckinHandlerFactory {
                         assert jdkPath != null;
 
                         List<File> file = (List<File>) FileUtils.listFiles(new File(jdkPath), TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
-                        for (File f : file){
+                        for (File f : file) {
                             libraryNames.addAll(listf(f.getAbsolutePath()));
                         }
 
@@ -113,7 +124,11 @@ public class CommitFactory extends CheckinHandlerFactory {
 
 
 */
-                        ProcessBuilder pb = new ProcessBuilder("java", "-jar", "/Users/ncdaam/IdeaProjects/whatTestsPlugin/whatTests.jar", panel.getProject().getBasePath());
+                        Path tmp = Paths.get(Objects.requireNonNull(panel.getProject().getBasePath()), ".whatTests", "jarTmp");
+                        extractContentFromJar(Objects.requireNonNull(getClass().getClassLoader().getResource("whatTests.jar")).toString().replace("whatTests.jar", ""), tmp.toString());
+
+
+                        ProcessBuilder pb = new ProcessBuilder("java", "-jar", Paths.get(Objects.requireNonNull(panel.getProject().getBasePath()), ".whatTests", "jarTmp", "whatTests.jar").toString(), panel.getProject().getBasePath());
                         Process p = pb.start();
                         p.waitFor();
 
@@ -121,7 +136,7 @@ public class CommitFactory extends CheckinHandlerFactory {
                                 new BufferedReader(new InputStreamReader(p.getInputStream()));
                         StringBuilder builder = new StringBuilder();
                         String line = null;
-                        while ( (line = reader.readLine()) != null) {
+                        while ((line = reader.readLine()) != null) {
                             builder.append(line);
                             builder.append(System.getProperty("line.separator"));
                         }
@@ -130,13 +145,13 @@ public class CommitFactory extends CheckinHandlerFactory {
 
                         reader =
                                 new BufferedReader(new InputStreamReader(p.getErrorStream()));
-                       builder = new StringBuilder();
-                    line = null;
-                        while ( (line = reader.readLine()) != null) {
+                        builder = new StringBuilder();
+                        line = null;
+                        while ((line = reader.readLine()) != null) {
                             builder.append(line);
                             builder.append(System.getProperty("line.separator"));
                         }
-                       result = builder.toString();
+                        result = builder.toString();
                         System.out.println(result);
 
 
@@ -145,6 +160,8 @@ public class CommitFactory extends CheckinHandlerFactory {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
 
@@ -169,13 +186,12 @@ public class CommitFactory extends CheckinHandlerFactory {
         if (directory.isFile()) {
             if (directory.getName().endsWith(".jar"))
                 files.add(directory.getAbsolutePath());
-        }
-        else {
+        } else {
             File[] fList = directory.listFiles();
             if (fList != null)
                 for (File file : fList) {
                     if (file.isFile()) {
-                        if(file.getName().endsWith(".jar"))
+                        if (file.getName().endsWith(".jar"))
                             files.add(file.getAbsolutePath());
                     } else if (file.isDirectory()) {
                         files.addAll(listf(file.getAbsolutePath()));
@@ -186,5 +202,56 @@ public class CommitFactory extends CheckinHandlerFactory {
         return files;
     }
 
+
+    public void extractContentFromJar(String uri, String dest) throws Exception {
+        URL location = null;
+        try {
+            location = new URL(uri);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        assert location != null;
+        String jarPath = location.getPath().replace("file:", "").replace("!", "");
+
+        try {
+            JarInputStream jar = new JarInputStream(new FileInputStream(jarPath));
+            JarEntry jarEntry = null;
+
+            while ((jarEntry = jar.getNextJarEntry()) != null) {
+                String jarEntryName = jarEntry.getName();
+                File entry = null;
+                if (jarEntryName.equals("whatTests.jar")) {
+                    try {
+                        entry = new File(dest, jarEntryName);
+
+                        if (entry.createNewFile()) {
+
+                            FileOutputStream out = new FileOutputStream(entry);
+                            byte[] buffer = new byte[1024];
+                            int readCount = 0;
+
+                            while ((readCount = jar.read(buffer)) >= 0) {
+                                out.write(buffer, 0, readCount);
+                            }
+
+                            jar.closeEntry();
+                            out.flush();
+                            out.close();
+                        }
+                    } catch (Exception e) {
+                        throw new Exception("Error on create temp file");
+                    }
+                }
+            }
+            jar.close();
+        } catch (Exception e) {
+            throw new Exception("Error on create temp file");
+        }
+    }
 }
+
+
+
+
+
 
