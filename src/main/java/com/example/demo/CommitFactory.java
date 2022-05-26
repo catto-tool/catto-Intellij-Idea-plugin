@@ -25,6 +25,7 @@ import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 
+import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -50,7 +51,7 @@ public class CommitFactory extends CheckinHandlerFactory {
     @Override
     public CheckinHandler createHandler(@NotNull CheckinProjectPanel panel, @NotNull CommitContext commitContext) {
 
-
+        //TODO: create a task and wait for it to be sure that before the execution of the commit the build has been completed
         RunManager instance = RunManager.getInstance(panel.getProject());
         List<RunnerAndConfigurationSettings> allSettings = instance.getAllSettings();
         RunnerAndConfigurationSettings runnerAndConfigurationSettings = allSettings.get(0);
@@ -71,6 +72,49 @@ public class CommitFactory extends CheckinHandlerFactory {
         }
 
         final CheckinHandler checkinHandler = new CheckinHandler() {
+
+            @Override
+            public void checkinSuccessful(){
+                /*
+
+                ExecutionEnvironmentBuilder.create(panel.getProject(), executorToUse, configs.get(valore)).build();
+                Module @NotNull [] modules = ModuleManager.getInstance(panel.getProject()).getModules();
+                List<String> paths = new ArrayList<>();
+
+                final List<String> libraryNames = new ArrayList<String>();
+                for(Module m : modules){
+                    paths.add(Objects.requireNonNull(Objects.requireNonNull(CompilerModuleExtension.getInstance(m)).getCompilerOutputUrl()).replace("file://", ""));
+                    paths.add(Objects.requireNonNull(Objects.requireNonNull(CompilerModuleExtension.getInstance(m)).getCompilerOutputUrlForTests()).replace("file://", ""));;
+
+
+                    ModuleRootManager.getInstance(m).orderEntries().forEachLibrary(library -> {
+                        for (VirtualFile vf: library.getFiles(OrderRootType.SOURCES)){
+                            libraryNames.add(vf.getPath().replace("!/", ""));
+                        }
+                        for (VirtualFile vf: library.getFiles(OrderRootType.CLASSES)){
+                            libraryNames.add(vf.getPath().replace("!/", ""));
+                        }
+
+                        return true;
+                    });
+
+                 */
+
+                //TODO: read the config file and copy the file from outpuPat to tmp folder
+                ConfigWrapper configWrapper = new ConfigWrapper(panel.getProject().getBasePath());
+                String tempFolder = configWrapper.getCONFIG().getTempFolderPath();
+                List<String> classPath = configWrapper.getCONFIG().getOutputPath();
+                for(String cp : classPath ){
+                    try {
+                        File src = new File(cp);
+                        File dest = new File(Paths.get(panel.getProject().getBasePath(), tempFolder).toString());
+                        FileUtils.copyDirectory(src, dest);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
             @Override
             public ReturnResult beforeCheckin() {
                 int value;
@@ -83,8 +127,27 @@ public class CommitFactory extends CheckinHandlerFactory {
 
                 //Executor executorToUse = DefaultRunExecutor.getRunExecutorInstance();
 
+                //TODO: spostare codice da qui
+                ConfigWrapper configWrapper = new ConfigWrapper(panel.getProject().getBasePath());
+                String tempFolder = Paths.get(panel.getProject().getBasePath(), configWrapper.getCONFIG().getTempFolderPath()).toString();
+                if(!new File(tempFolder).exists()){
+                   List<String> classPath = configWrapper.getCONFIG().getOutputPath();
+                    for(String cp : classPath ){
+                        try {
+                            File src = new File(cp);
+                            File dest = new File(tempFolder);
+                            FileUtils.copyDirectory(src, dest);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+
                 try {
                     //ExecutionEnvironmentBuilder.create(panel.getProject(), executorToUse, configs.get(value)).build();
+
+
+
 
 
                     ProjectJdkTable jdkTable = ProjectJdkTable.getInstance();
@@ -210,7 +273,14 @@ public class CommitFactory extends CheckinHandlerFactory {
 
                 return super.beforeCheckin();
             }
+
+
         };
+
+
+
+
+
         return checkinHandler;
     }
 
