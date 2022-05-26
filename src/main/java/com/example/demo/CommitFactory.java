@@ -1,60 +1,42 @@
 package com.example.demo;
 
-import com.intellij.execution.ExecutionException;
-import com.intellij.execution.Executor;
-import com.intellij.execution.RunManager;
+import com.intellij.execution.*;
 import com.intellij.execution.configurations.GeneralCommandLine;
-import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.execution.executors.DefaultRunExecutor;
 import com.intellij.execution.filters.TextConsoleBuilderFactory;
 import com.intellij.execution.process.OSProcessHandler;
-import com.intellij.execution.process.ProcessHandler;
 import com.intellij.execution.process.ProcessHandlerFactory;
 import com.intellij.execution.process.ProcessTerminatedListener;
+
 import com.intellij.execution.runners.ExecutionEnvironmentBuilder;
 import com.intellij.execution.ui.ConsoleView;
-import com.intellij.execution.ui.ConsoleViewContentType;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleManager;
+import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.progress.ProgressManager;
+import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.projectRoots.*;
-import com.intellij.openapi.roots.*;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.util.IconLoader;
-import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
 import com.intellij.openapi.vcs.changes.CommitContext;
 import com.intellij.openapi.vcs.checkin.CheckinHandler;
 import com.intellij.openapi.vcs.checkin.CheckinHandlerFactory;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.RegisterToolWindowTask;
 import com.intellij.openapi.wm.ToolWindow;
-import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
-import com.intellij.xdebugger.DefaultDebugProcessHandler;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import org.jetbrains.annotations.NotNull;
 
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.*;
-import java.net.JarURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.List;
 import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 import java.util.jar.JarInputStream;
 
 import com.intellij.openapi.projectRoots.Sdk;
@@ -68,77 +50,111 @@ public class CommitFactory extends CheckinHandlerFactory {
     @Override
     public CheckinHandler createHandler(@NotNull CheckinProjectPanel panel, @NotNull CommitContext commitContext) {
 
+
+        RunManager instance = RunManager.getInstance(panel.getProject());
+        List<RunnerAndConfigurationSettings> allSettings = instance.getAllSettings();
+        RunnerAndConfigurationSettings runnerAndConfigurationSettings = allSettings.get(0);
+        ExecutionEnvironmentBuilder builder = ExecutionEnvironmentBuilder
+                .createOrNull(DefaultRunExecutor.getRunExecutorInstance(), runnerAndConfigurationSettings);
+
+        if (builder != null) {
+            //ExecutionManager.getInstance(panel.getProject()).restartRunProfile(builder.build());
+            builder.build();
+            //builder.activeTarget().build();
+            try {
+                builder.buildAndExecute();
+            } catch (ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+
+
+        }
+
         final CheckinHandler checkinHandler = new CheckinHandler() {
             @Override
             public ReturnResult beforeCheckin() {
-                final RunManager runManager = RunManager.getInstance(panel.getProject());
+                int value;
+                // final RunManager runManager = RunManager.getInstance(panel.getProject());
 
 
-                List<RunConfiguration> configs = runManager.getAllConfigurationsList();
-                int value= JOptionPane.showOptionDialog(null, "Choose one configuration", "Select a configuration", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, configs.toArray(), configs.get(0));
-                if (value != JOptionPane.CLOSED_OPTION) {
+                // List<RunConfiguration> configs = runManager.getAllConfigurationsList();
+                // value= JOptionPane.showOptionDialog(null, "Choose one configuration", "Select a configuration", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, configs.toArray(), configs.get(0));
+                // if (value != JOptionPane.CLOSED_OPTION) {
 
-                    Executor executorToUse = DefaultRunExecutor.getRunExecutorInstance();
+                //Executor executorToUse = DefaultRunExecutor.getRunExecutorInstance();
 
-                    try {
-                        ExecutionEnvironmentBuilder.create(panel.getProject(), executorToUse, configs.get(value)).build();
+                try {
+                    //ExecutionEnvironmentBuilder.create(panel.getProject(), executorToUse, configs.get(value)).build();
 
-                        ProjectJdkTable jdkTable = ProjectJdkTable.getInstance();
-                        String jdkPath = "";
 
-                        Sdk[] sq = jdkTable.getAllJdks();
-                        String Java8InstallationPath = "";
-                        for (Sdk k : sq) {
-                            if (k.getName().equals("1.8")) {
-                                if (k.getHomePath() != null)
-                                    Java8InstallationPath = k.getHomePath();
-                            }
+                    ProjectJdkTable jdkTable = ProjectJdkTable.getInstance();
+                    String jdkPath = "";
+
+                    Sdk[] sq = jdkTable.getAllJdks();
+                    String Java8InstallationPath = "";
+                    for (Sdk k : sq) {
+                        if (k.getName().equals("1.8")) {
+                            if (k.getHomePath() != null)
+                                Java8InstallationPath = k.getHomePath();
                         }
+                    }
 
-                        if (Java8InstallationPath.equals("")) {
-                            Messages.showInfoMessage("whatTest could not find java 8 installation on yout system. Please install it and relunch the plugin", "WhatTests:JAVA V.1.8 not Installed");
-                        }else{
+                    if (Java8InstallationPath.equals("")) {
+                        Messages.showInfoMessage("whatTest could not find java 8 installation on yout system. Please install it and relunch the plugin", "WhatTests:JAVA V.1.8 not Installed");
+                    } else {
 
                         Path tmp = Paths.get(Objects.requireNonNull(panel.getProject().getBasePath()), ".whatTests", "jarTmp");
                         String whatTestTmpPath = extractContentFromJar(Objects.requireNonNull(getClass().getClassLoader().getResource("whatTests.jar")).toString().replace("whatTests.jar", ""), tmp.toString());
 
                         String binJava8 = Paths.get(Java8InstallationPath, "bin", "java").toString();
 
-                            ToolWindow toolWindow =  ToolWindowManager.getInstance(panel.getProject()).getToolWindow("whatTests");
-                            if (toolWindow == null) {
-                                //toolWindow = ToolWindowManager.getInstance(panel.getProject()).registerToolWindow(RegisterToolWindowTask.closable("whatTests", IconLoader.findIcon(getClass().getClassLoader().getResource("close.svg"))));
-                                toolWindow = ToolWindowManager.getInstance(panel.getProject()).registerToolWindow(RegisterToolWindowTask.notClosable("whatTests"));
+                        ToolWindow toolWindow = ToolWindowManager.getInstance(panel.getProject()).getToolWindow("whatTests");
+                        if (toolWindow == null) {
+                            //toolWindow = ToolWindowManager.getInstance(panel.getProject()).registerToolWindow(RegisterToolWindowTask.closable("whatTests", IconLoader.findIcon(getClass().getClassLoader().getResource("close.svg"))));
+                            toolWindow = ToolWindowManager.getInstance(panel.getProject()).registerToolWindow(RegisterToolWindowTask.notClosable("whatTests"));
+
+                        }
+                        Content content = toolWindow.getContentManager().findContent("Output");
+                        ConsoleView consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(panel.getProject()).getConsole();
+                        if (content != null) {
+                            toolWindow.getContentManager().removeContent(content, true);
+
+                        }
+                        ContentManager contentManager = toolWindow.getContentManager().getFactory().createContentManager(true, panel.getProject());
+                        content = contentManager.getFactory().createContent(consoleView.getComponent(), "Output", true);
+                        content.setCloseable(true);
+                        toolWindow.getContentManager().addContent(content);
+
+
+                        toolWindow.activate(new Runnable() {
+                            @Override
+                            public void run() {
 
                             }
-                            Content content = toolWindow.getContentManager().findContent("Output");
-                            ConsoleView consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(panel.getProject()).getConsole();
-                            if (content != null){
-                                toolWindow.getContentManager().removeContent(content, true);
-
-                            }
-                            ContentManager contentManager = toolWindow.getContentManager().getFactory().createContentManager(true, panel.getProject());
-                            content = contentManager.getFactory().createContent(consoleView.getComponent(), "Output", true);
-                            content.setCloseable(true);
-                            toolWindow.getContentManager().addContent(content);
+                        });
 
 
+                        Integer exitValue = 0;
 
-                            toolWindow.activate(new Runnable() {
-                                @Override
-                                public void run() {
 
+                        Task.WithResult<Integer, Exception> task1 = new Task.WithResult<Integer, Exception>(panel.getProject(), null, "WhatTest", false) {
+                            @Override
+                            protected Integer compute(@NotNull ProgressIndicator indicator) throws Exception {
+                                OSProcessHandler processHandler = null;
+                                try {
+                                    processHandler = ProcessHandlerFactory.getInstance().createColoredProcessHandler(new GeneralCommandLine(binJava8, "-jar", whatTestTmpPath, panel.getProject().getBasePath()));
+                                } catch (ExecutionException e) {
+                                    throw new RuntimeException(e);
                                 }
-                            });
-
-
-
-
-                            OSProcessHandler processHandler = ProcessHandlerFactory.getInstance().createColoredProcessHandler(new GeneralCommandLine(binJava8, "-jar", whatTestTmpPath, panel.getProject().getBasePath()));
-                            ProcessTerminatedListener.attach(processHandler);
-                            processHandler.startNotify();
-                            consoleView.attachToProcess(processHandler);
-                            Process p = processHandler.getProcess();
-                            processHandler.waitFor();
+                                ProcessTerminatedListener.attach(processHandler);
+                                processHandler.startNotify();
+                                consoleView.attachToProcess(processHandler);
+                                Process p = processHandler.getProcess();
+                                processHandler.waitFor();
+                                return p.exitValue();
+                            }
+                        };
+                        exitValue = ProgressManager.getInstance().run(task1);
 
 /*
                             ProcessBuilder pb = new ProcessBuilder(binJava8, "-jar", whatTestTmpPath, panel.getProject().getBasePath());
@@ -171,14 +187,14 @@ public class CommitFactory extends CheckinHandlerFactory {
                         result = builder.toString();
                         */
 
-                        if(p.exitValue() != 0) {
+                        if (exitValue != 0) {
                             Messages.showInfoMessage("Some test fails. Plese see the whaTest consolo for more information", "whatTests Test Failure");
                             value = JOptionPane.showConfirmDialog(null, "Do you want commit anyway?", "Commit Test fails", JOptionPane.YES_NO_OPTION);
                             if (value == 0)
                                 return super.beforeCheckin();
 
                             return ReturnResult.CANCEL;
-                        }else{
+                        } else {
                             Messages.showInfoMessage("No test fails!", "whatTests Test Pass");
                             value = JOptionPane.showConfirmDialog(null, "Do you want commit?", "Commit Test pass", JOptionPane.YES_NO_OPTION);
                             if (value == 0)
@@ -188,16 +204,15 @@ public class CommitFactory extends CheckinHandlerFactory {
                         }
                     }
                 } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+                    throw new RuntimeException(e);
                 }
+                //}
 
-              return super.beforeCheckin();
+                return super.beforeCheckin();
             }
         };
         return checkinHandler;
     }
-
 
 
     public String extractContentFromJar(String uri, String dest) throws Exception {
