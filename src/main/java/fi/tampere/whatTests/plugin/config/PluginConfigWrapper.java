@@ -4,36 +4,51 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Paths;
 
 public class PluginConfigWrapper {
 
-    private static PluginConfigurator CONFIG;
+    private static PluginConfiguration CONFIG;
+    private String CONFIG_RELATIVE_PATH = ".whatTests" + File.separator + "pluginConfiguration.yaml";
 
-    public PluginConfigurator getCONFIG() {
-        return CONFIG;
-    }
-
-    private void setCONFIG(File f) throws IOException {
-        ObjectMapper om = new ObjectMapper(new YAMLFactory());
-        CONFIG = om.readValue(f, PluginConfigurator.class);
-    }
-
+    private String path;
 
     public PluginConfigWrapper(String path) {
         File config;
         try {
-            config = Paths.get(path).toFile();
-            setCONFIG(config);
+
+            this.path = path + File.separator + CONFIG_RELATIVE_PATH;
+            this.setConfig();
 
         } catch (UnsupportedOperationException e) {
-
             System.out.println("NO CONFIG FILE FOUND");
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public PluginConfiguration getConfig() {
+        return CONFIG;
+    }
+
+    private void setConfig() throws IOException {
+        ObjectMapper om = new ObjectMapper(new YAMLFactory());
+        File f = new File(path);
+
+        if(!f.exists()){
+            FileWriter fWriter = new FileWriter(f);
+            PluginConfiguration pluginConfiguration = new PluginConfiguration();
+            fWriter.write(pluginConfiguration.toString());
+            CONFIG = pluginConfiguration;
+        }else
+            CONFIG = om.readValue(f, PluginConfiguration.class);
+    }
+
+    public void updateConfig(PluginConfiguration pluginConfiguration) throws IOException {
+        ObjectMapper om = new ObjectMapper(new YAMLFactory());
+        om.writeValue(new File(path), pluginConfiguration);
+        CONFIG = pluginConfiguration;
     }
 
 }

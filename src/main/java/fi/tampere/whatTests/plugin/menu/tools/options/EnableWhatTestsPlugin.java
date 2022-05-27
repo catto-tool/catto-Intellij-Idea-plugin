@@ -1,19 +1,16 @@
 package fi.tampere.whatTests.plugin.menu.tools.options;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
-import fi.tampere.whatTests.plugin.config.PluginConfigurator;
+import fi.tampere.whatTests.plugin.config.PluginConfigWrapper;
+import fi.tampere.whatTests.plugin.config.PluginConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 
 /**
  * Action class to demonstrate how to interact with the IntelliJ Platform.
@@ -57,18 +54,12 @@ public class EnableWhatTestsPlugin extends AnAction {
     public void actionPerformed(@NotNull AnActionEvent event) {
         // Using the event, create and show a dialog
         Project currentProject = event.getProject();
-        PluginConfigurator pluginConfigurator = new PluginConfigurator(true);
-        ObjectMapper om = new ObjectMapper(new YAMLFactory());
-        File f =  Paths.get(currentProject.getBasePath(), ".whatTests", "pluginConfiguration.yaml").toFile();
+        PluginConfiguration pluginConfiguration = new PluginConfiguration(true);
+        PluginConfigWrapper pluginConfigWrapper = new PluginConfigWrapper(currentProject.getBasePath());
         try {
-            f.createNewFile();
+            pluginConfigWrapper.updateConfig(pluginConfiguration);
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            om.writeValue(f,pluginConfigurator);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            Messages.showMessageDialog(currentProject, "An error occurred: It is not possible enabled whatTestPlugin", "WhatTests:Error" , Messages.getErrorIcon());
         }
 
         Messages.showMessageDialog(currentProject, "WhatTests Plugin enabled successfully", "WhatTests: Enabled" , Messages.getInformationIcon());

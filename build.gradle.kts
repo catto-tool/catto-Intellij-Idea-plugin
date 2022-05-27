@@ -28,6 +28,10 @@ dependencies {
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0-M1")
     testImplementation( "org.junit.platform:junit-platform-launcher:1.9.0-M1")
+    //implementation(files("whatTest.jar"))
+
+
+
 
 
 }
@@ -35,8 +39,8 @@ dependencies {
 tasks {
     // Set the JVM compatibility versions
     withType<JavaCompile> {
-        sourceCompatibility = "8"
-        targetCompatibility = "8"
+        sourceCompatibility = "11"
+        targetCompatibility = "11"
     }
 
     patchPluginXml {

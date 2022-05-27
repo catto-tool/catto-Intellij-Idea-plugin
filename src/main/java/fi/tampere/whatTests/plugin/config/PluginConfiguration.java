@@ -1,13 +1,13 @@
 package fi.tampere.whatTests.plugin.config;
 
 
-public class PluginConfigurator {
-    private boolean enable;
+public class PluginConfiguration {
+    private boolean enable = true;
 
-    PluginConfigurator(){
+    PluginConfiguration(){
     }
 
-    public PluginConfigurator(boolean enable){
+    public PluginConfiguration(boolean enable){
         this.enable = enable;
     }
 
@@ -19,5 +19,8 @@ public class PluginConfigurator {
         this.enable = enable;
     }
 
-
+    @Override
+    public String toString() {
+        return "enable: true";
+    }
 }
