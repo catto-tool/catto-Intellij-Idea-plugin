@@ -1,16 +1,8 @@
-package fi.tampere.whatTests;
+package fi.tampere.whatTests.plugin.build.listener;
 
-import com.intellij.execution.ExecutionException;
 import com.intellij.execution.ExecutionListener;
-import com.intellij.execution.configurations.GeneralCommandLine;
-import com.intellij.execution.process.OSProcessHandler;
 import com.intellij.execution.process.ProcessHandler;
-import com.intellij.execution.process.ProcessHandlerFactory;
-import com.intellij.execution.process.ProcessTerminatedListener;
 import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.openapi.progress.ProgressIndicator;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.progress.Task;
 import org.jetbrains.annotations.NotNull;
 
 public class MyExecutionListener implements ExecutionListener {

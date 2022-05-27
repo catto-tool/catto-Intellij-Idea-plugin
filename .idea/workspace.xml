@@ -4,14 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bad9a15-8f4c-4475-9403-48f916422bd7" name="Changes" comment="related to issue #1 and #4. &#10;implemented the city of .class file after the success of the commit.&#10;need to improve the management of tmp folder (see TODO).">
-      <change afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/MyExecutionListener.java" afterDir="false" />
+    <list default="true" id="2bad9a15-8f4c-4475-9403-48f916422bd7" name="Changes" comment="related to issue #1. &#10;implemented a listener to catch the build process and allow the user to commit, so to lunch whatTests, only when the build has been terminated.&#10;//TODO: find a way to build and not execute.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/config/PluginConfigWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/config/PluginConfigurator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/menu/tools/options/DisableWhatTestsPlugin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/menu/tools/options/EnableWhatTestsPlugin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/util/Util.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/pluginConfiguration.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/BeginAction.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/CommitFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/CommitFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/ConfigWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/ConfigWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Configurator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/Configurator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/SystemStart.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/CommitFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/CommitFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/MyExecutionListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/build/listener/MyExecutionListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -110,6 +112,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="fi.tampere.whatTests" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/com/example/demo" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
@@ -119,6 +124,9 @@
       <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/src/main" />
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="fi.tampere.whatTests" />
     </key>
   </component>
   <component name="RunManager" selected="Gradle.whatTestsPlugin [runIde]">
@@ -187,7 +195,7 @@
       <workItem from="1652960867330" duration="39749000" />
       <workItem from="1653400140584" duration="48378000" />
       <workItem from="1653556940301" duration="12448000" />
-      <workItem from="1653597095235" duration="16585000" />
+      <workItem from="1653597095235" duration="24324000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1653465050689</created>
@@ -266,7 +274,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653583374152</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="related to issue #1. &#10;implemented a listener to catch the build process and allow the user to commit, so to lunch whatTests, only when the build has been terminated.&#10;//TODO: find a way to build and not execute.">
+      <created>1653646501991</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1653646501991</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -293,7 +308,8 @@
     <MESSAGE value="related to issue #6 and #7. &#10;The results of whatTests now is displayed in a whatTests custom console on intellij; the return value in whatTests.jar to check if there are failure in tests or not." />
     <MESSAGE value="related to issue #1. &#10;The plugin build (and execute) the project before the effective commit automatically; updated the UI with a popup window with a progress bar during the whatTest execution." />
     <MESSAGE value="related to issue #1 and #4. &#10;implemented the city of .class file after the success of the commit.&#10;need to improve the management of tmp folder (see TODO)." />
-    <option name="LAST_COMMIT_MESSAGE" value="related to issue #1 and #4. &#10;implemented the city of .class file after the success of the commit.&#10;need to improve the management of tmp folder (see TODO)." />
+    <MESSAGE value="related to issue #1. &#10;implemented a listener to catch the build process and allow the user to commit, so to lunch whatTests, only when the build has been terminated.&#10;//TODO: find a way to build and not execute." />
+    <option name="LAST_COMMIT_MESSAGE" value="related to issue #1. &#10;implemented a listener to catch the build process and allow the user to commit, so to lunch whatTests, only when the build has been terminated.&#10;//TODO: find a way to build and not execute." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -307,6 +323,26 @@
           <url>jar://$PROJECT_DIR$/whatTest.jar!/testselector/util/ClassPathUpdater.class</url>
           <line>48</line>
           <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/menu/tools/options/DisableWhatTestsPlugin.java</url>
+          <line>58</line>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/CommitFactory.java</url>
+          <line>61</line>
+          <option name="timeStamp" value="44" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/CommitFactory.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/CommitFactory.java</url>
+          <line>80</line>
+          <option name="timeStamp" value="46" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

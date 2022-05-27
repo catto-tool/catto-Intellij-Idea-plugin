@@ -15,20 +15,35 @@
 
 
 
-    <vendor url="https://www.unisa.it/" email="seschool@unisa.it">SESA Lab.</vendor>
+    <vendor url="https://www.unisa.it/" email="seschool@unisa.it">CloudSea</vendor>
     <extensions defaultExtensionNs="com.intellij">
-        <checkinHandlerFactory implementation="fi.tampere.whatTests.CommitFactory"/>
+        <checkinHandlerFactory implementation="fi.tampere.whatTests.plugin.commit.factory.CommitFactory"/>
     </extensions>
 
     <actions>
-        <!--
-        <group id="org.jetbrains.tutorials.actions.GroupedActions" text="CASpER - Analyze Project" popup="true">
+        <action id="org.intellij.sdk.action.PopupDialogAction" class="fi.tampere.whatTests.plugin.menu.tools.options.EnableWhatTestsPlugin"
+                text="Action Basics Plugin: Pop Dialog Action" description="SDK action example">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
-            <action id="`BeginAction" class="BeginAction"
-                    text="Run Plug-in"/>
-        </group>
+            <override-text place="MainMenu" text="Pop Dialog Action"/>
+            <keyboard-shortcut first-keystroke="control alt A" second-keystroke="C" keymap="$default"/>
+            <mouse-shortcut keystroke="control button3 doubleClick" keymap="$default"/>
+        </action>
+        <!--
+            Action to enable/disabled plugin
         -->
+        <group id="org.intellij.sdk.action.GroupedActions"
+               text="whatTestsPlugin" description="WhatTests plugin option"
+               popup="true" >
+            <add-to-group group-id="ToolsMenu" anchor="after" relative-to-action="org.intellij.sdk.action.PopupDialogAction"/>
+            <action id="enableWhatTestsPlugin" class="fi.tampere.whatTests.plugin.menu.tools.options.EnableWhatTestsPlugin"
+                    text="Enable" description="Enable whatTests Plugin">
+            </action>
+            <action id="disableWhatTestsPlugin" class="fi.tampere.whatTests.plugin.menu.tools.options.DisableWhatTestsPlugin"
+                    text="Disable" description="Disable whatTests Plugin">
+            </action>
+        </group>
     </actions>
+
 
 
     <application-components>

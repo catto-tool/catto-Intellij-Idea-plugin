@@ -1,4 +1,4 @@
-package fi.tampere.whatTests;
+package fi.tampere.whatTests.plugin.commit.factory;
 
 import com.intellij.execution.*;
 import com.intellij.execution.configurations.GeneralCommandLine;
@@ -27,22 +27,22 @@ import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 
 import com.intellij.util.messages.MessageBusConnection;
+import fi.tampere.whatTests.ConfigWrapper;
+import fi.tampere.whatTests.plugin.build.listener.MyExecutionListener;
+import fi.tampere.whatTests.plugin.config.PluginConfigWrapper;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 
 
 import javax.swing.*;
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.List;
-import java.util.jar.JarEntry;
-import java.util.jar.JarInputStream;
 
 import com.intellij.openapi.projectRoots.Sdk;
+import fi.tampere.whatTests.plugin.util.Util;
 
 
 import static com.ibm.icu.impl.ClassLoaderUtil.getClassLoader;
@@ -53,80 +53,61 @@ public class CommitFactory extends CheckinHandlerFactory {
     @Override
     public CheckinHandler createHandler(@NotNull CheckinProjectPanel panel, @NotNull CommitContext commitContext) {
 
-        //TODO: create a task and wait for it to be sure that before the execution of the commit the build has been completed
+        PluginConfigWrapper pluginConfigWrapper = new PluginConfigWrapper(Paths.get(panel.getProject().getBasePath(), ".whatTests", "pluginConfiguration.yaml" ).toString());
         RunManager instance = RunManager.getInstance(panel.getProject());
         List<RunnerAndConfigurationSettings> allSettings = instance.getAllSettings();
         RunnerAndConfigurationSettings runnerAndConfigurationSettings = allSettings.get(0);
         ExecutionEnvironmentBuilder builder = ExecutionEnvironmentBuilder
                 .createOrNull(DefaultRunExecutor.getRunExecutorInstance(), runnerAndConfigurationSettings);
-        final boolean checkin = true;
-        final boolean[] finished = {false};
-        MessageBusConnection messageBusConnection = panel.getProject().getMessageBus().connect();
         MyExecutionListener executionListener = new MyExecutionListener();
 
-        if (builder != null) {
+
+        if(pluginConfigWrapper.getCONFIG().isEnable()) {
+            MessageBusConnection messageBusConnection = panel.getProject().getMessageBus().connect();
 
 
-            //builder.build();
-            ExecutionManager.getInstance(panel.getProject()).restartRunProfile(builder.build());
-            messageBusConnection.subscribe(ExecutionManager.EXECUTION_TOPIC, executionListener);
+            if (builder != null) {
+                //builder.build();
+                ExecutionManager.getInstance(panel.getProject()).restartRunProfile(builder.build());
+                messageBusConnection.subscribe(ExecutionManager.EXECUTION_TOPIC, executionListener);
 
-
-
-
-            /*
-            Task.NotificationInfo task1 = new Task.NotificationInfo("My Notification", "Build", "ciao") {};
-
-            ApplicationManager.getApplication().invokeAndWait(new Runnable() {
-                @Override
-                public void run() {
-                     ExecutionManager.getInstance(panel.getProject()).restartRunProfile(builder.build());
-                }
-            }, ModalityState.NON_MODAL);
-*/
-
-            try {
-
-        //     ProgressManager.getInstance().run(task1);
-           //   task1.whereToRunCallbacks();
-              //task1.getResult();
-          //    task1.onFinished();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
             }
 
-            //builder.activeTarget().build();
-           // try {
-           //     builder.buildAndExecute();
-           // } catch (ExecutionException e) {
-           //     throw new RuntimeException(e);
-           // }
+            }
 
-
-        }
 
         final CheckinHandler checkinHandler = new CheckinHandler() {
 
             @Override
-            public void checkinSuccessful(){
+            public void checkinSuccessful() {
 
-                //TODO: read the config file and copy the file from outpuPat to tmp folder
-                ConfigWrapper configWrapper = new ConfigWrapper(panel.getProject().getBasePath());
-                String tempFolder = configWrapper.getCONFIG().getTempFolderPath();
-                List<String> classPath = configWrapper.getCONFIG().getOutputPath();
-                for(String cp : classPath ){
-                    try {
-                        File src = new File(cp);
-                        File dest = new File(Paths.get(panel.getProject().getBasePath(), tempFolder).toString());
-                        FileUtils.copyDirectory(src, dest);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+                if (!pluginConfigWrapper.getCONFIG().isEnable()) {
+                    super.checkinSuccessful();
+                }else {
+
+                    //TODO: read the config file and copy the file from outpuPat to tmp folder
+                    ConfigWrapper configWrapper = new ConfigWrapper(panel.getProject().getBasePath());
+                    String tempFolder = configWrapper.getCONFIG().getTempFolderPath();
+                    List<String> classPath = configWrapper.getCONFIG().getOutputPath();
+                    for (String cp : classPath) {
+                        try {
+                            File src = new File(cp);
+                            File dest = new File(Paths.get(panel.getProject().getBasePath(), tempFolder).toString());
+                            FileUtils.copyDirectory(src, dest);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
             }
 
             @Override
             public ReturnResult beforeCheckin() {
+                if (!pluginConfigWrapper.getCONFIG().isEnable()) {
+                    return super.beforeCheckin();
+                }
+
+
                 final int[] value = new int[1];
 
                 // final RunManager runManager = RunManager.getInstance(panel.getProject());
@@ -183,7 +164,7 @@ public class CommitFactory extends CheckinHandlerFactory {
                     } else {
 
                         Path tmp = Paths.get(Objects.requireNonNull(panel.getProject().getBasePath()), ".whatTests", "jarTmp");
-                        String whatTestTmpPath = extractContentFromJar(Objects.requireNonNull(getClass().getClassLoader().getResource("whatTests.jar")).toString().replace("whatTests.jar", ""), tmp.toString());
+                        String whatTestTmpPath = Util.extractContentFromJar(Objects.requireNonNull(getClass().getClassLoader().getResource("whatTests.jar")).toString().replace("whatTests.jar", ""), tmp.toString());
 
                         String binJava8 = Paths.get(Java8InstallationPath, "bin", "java").toString();
 
@@ -301,54 +282,7 @@ public class CommitFactory extends CheckinHandlerFactory {
     }
 
 
-    public String extractContentFromJar(String uri, String dest) throws Exception {
-        URL location = null;
-        try {
-            location = new URL(uri);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        assert location != null;
-        String jarPath = location.getPath().replace("file:", "").replace("!", "");
-        String resultPath = "";
 
-        try {
-            JarInputStream jar = new JarInputStream(new FileInputStream(jarPath));
-            JarEntry jarEntry = null;
-
-            while ((jarEntry = jar.getNextJarEntry()) != null) {
-                String jarEntryName = jarEntry.getName();
-                File entry = null;
-                if (jarEntryName.equals("whatTests.jar")) {
-                    try {
-                        entry = new File(dest, jarEntryName);
-                        resultPath = entry.getPath();
-
-                        if (entry.createNewFile()) {
-
-                            FileOutputStream out = new FileOutputStream(entry);
-                            byte[] buffer = new byte[1024];
-                            int readCount = 0;
-
-                            while ((readCount = jar.read(buffer)) >= 0) {
-                                out.write(buffer, 0, readCount);
-                            }
-
-                            jar.closeEntry();
-                            out.flush();
-                            out.close();
-                        }
-                    } catch (Exception e) {
-                        throw new Exception("Error on create temp file");
-                    }
-                }
-            }
-            jar.close();
-        } catch (Exception e) {
-            throw new Exception("Error on create temp file");
-        }
-        return resultPath;
-    }
 }
 
 
