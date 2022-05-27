@@ -17,14 +17,14 @@
 
     <vendor url="https://www.unisa.it/" email="seschool@unisa.it">SESA Lab.</vendor>
     <extensions defaultExtensionNs="com.intellij">
-        <checkinHandlerFactory implementation="com.example.demo.CommitFactory"/>
+        <checkinHandlerFactory implementation="fi.tampere.whatTests.CommitFactory"/>
     </extensions>
 
     <actions>
         <!--
         <group id="org.jetbrains.tutorials.actions.GroupedActions" text="CASpER - Analyze Project" popup="true">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
-            <action id="`com.example.demo.BeginAction" class="com.example.demo.BeginAction"
+            <action id="`BeginAction" class="BeginAction"
                     text="Run Plug-in"/>
         </group>
         -->

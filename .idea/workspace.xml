@@ -4,11 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bad9a15-8f4c-4475-9403-48f916422bd7" name="Changes" comment="related to issue #1. &#10;The plugin build (and execute) the project before the effective commit automatically; updated the UI with a popup window with a progress bar during the whatTest execution.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/ConfigWrapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Configurator.java" afterDir="false" />
+    <list default="true" id="2bad9a15-8f4c-4475-9403-48f916422bd7" name="Changes" comment="related to issue #1 and #4. &#10;implemented the city of .class file after the success of the commit.&#10;need to improve the management of tmp folder (see TODO).">
+      <change afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/MyExecutionListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/CommitFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/CommitFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/BeginAction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/CommitFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/CommitFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/ConfigWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/ConfigWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Configurator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/Configurator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/SystemStart.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,24 +91,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/ncdaam/IdeaProjects/whatTestsPlugin/src/main/java/com/example/demo",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.4448276",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/ncdaam/IdeaProjects/whatTestsPlugin/src/main/java/com/example/demo&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.4448276&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/com/example/demo" />
@@ -182,7 +186,8 @@
       <workItem from="1652957899184" duration="885000" />
       <workItem from="1652960867330" duration="39749000" />
       <workItem from="1653400140584" duration="48378000" />
-      <workItem from="1653556940301" duration="12051000" />
+      <workItem from="1653556940301" duration="12448000" />
+      <workItem from="1653597095235" duration="16585000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1653465050689</created>
@@ -254,7 +259,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653577983238</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="related to issue #1 and #4. &#10;implemented the city of .class file after the success of the commit.&#10;need to improve the management of tmp folder (see TODO).">
+      <created>1653583374152</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1653583374152</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -280,7 +292,8 @@
     <MESSAGE value="related to issue #2. &#10;The plugin now check if there is an installation of Java 1.8 on the system and use it to lunch whatTests.jar." />
     <MESSAGE value="related to issue #6 and #7. &#10;The results of whatTests now is displayed in a whatTests custom console on intellij; the return value in whatTests.jar to check if there are failure in tests or not." />
     <MESSAGE value="related to issue #1. &#10;The plugin build (and execute) the project before the effective commit automatically; updated the UI with a popup window with a progress bar during the whatTest execution." />
-    <option name="LAST_COMMIT_MESSAGE" value="related to issue #1. &#10;The plugin build (and execute) the project before the effective commit automatically; updated the UI with a popup window with a progress bar during the whatTest execution." />
+    <MESSAGE value="related to issue #1 and #4. &#10;implemented the city of .class file after the success of the commit.&#10;need to improve the management of tmp folder (see TODO)." />
+    <option name="LAST_COMMIT_MESSAGE" value="related to issue #1 and #4. &#10;implemented the city of .class file after the success of the commit.&#10;need to improve the management of tmp folder (see TODO)." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

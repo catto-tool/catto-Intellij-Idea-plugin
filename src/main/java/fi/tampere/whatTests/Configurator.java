@@ -1,4 +1,4 @@
-package com.example.demo;
+package fi.tampere.whatTests;
 
 import java.util.List;
 

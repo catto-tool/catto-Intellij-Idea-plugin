@@ -1,4 +1,4 @@
-package com.example.demo;
+package fi.tampere.whatTests;
 
 import com.intellij.execution.*;
 import com.intellij.execution.configurations.GeneralCommandLine;
@@ -7,6 +7,7 @@ import com.intellij.execution.filters.TextConsoleBuilderFactory;
 import com.intellij.execution.process.OSProcessHandler;
 import com.intellij.execution.process.ProcessHandlerFactory;
 import com.intellij.execution.process.ProcessTerminatedListener;
+
 
 import com.intellij.execution.runners.ExecutionEnvironmentBuilder;
 import com.intellij.execution.ui.ConsoleView;
@@ -25,6 +26,7 @@ import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 
+import com.intellij.util.messages.MessageBusConnection;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -57,16 +59,48 @@ public class CommitFactory extends CheckinHandlerFactory {
         RunnerAndConfigurationSettings runnerAndConfigurationSettings = allSettings.get(0);
         ExecutionEnvironmentBuilder builder = ExecutionEnvironmentBuilder
                 .createOrNull(DefaultRunExecutor.getRunExecutorInstance(), runnerAndConfigurationSettings);
+        final boolean checkin = true;
+        final boolean[] finished = {false};
+        MessageBusConnection messageBusConnection = panel.getProject().getMessageBus().connect();
+        MyExecutionListener executionListener = new MyExecutionListener();
 
         if (builder != null) {
-            //ExecutionManager.getInstance(panel.getProject()).restartRunProfile(builder.build());
-            builder.build();
-            //builder.activeTarget().build();
+
+
+            //builder.build();
+            ExecutionManager.getInstance(panel.getProject()).restartRunProfile(builder.build());
+            messageBusConnection.subscribe(ExecutionManager.EXECUTION_TOPIC, executionListener);
+
+
+
+
+            /*
+            Task.NotificationInfo task1 = new Task.NotificationInfo("My Notification", "Build", "ciao") {};
+
+            ApplicationManager.getApplication().invokeAndWait(new Runnable() {
+                @Override
+                public void run() {
+                     ExecutionManager.getInstance(panel.getProject()).restartRunProfile(builder.build());
+                }
+            }, ModalityState.NON_MODAL);
+*/
+
             try {
-                builder.buildAndExecute();
-            } catch (ExecutionException e) {
+
+        //     ProgressManager.getInstance().run(task1);
+           //   task1.whereToRunCallbacks();
+              //task1.getResult();
+          //    task1.onFinished();
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+
+            //builder.activeTarget().build();
+           // try {
+           //     builder.buildAndExecute();
+           // } catch (ExecutionException e) {
+           //     throw new RuntimeException(e);
+           // }
 
 
         }
@@ -75,30 +109,6 @@ public class CommitFactory extends CheckinHandlerFactory {
 
             @Override
             public void checkinSuccessful(){
-                /*
-
-                ExecutionEnvironmentBuilder.create(panel.getProject(), executorToUse, configs.get(valore)).build();
-                Module @NotNull [] modules = ModuleManager.getInstance(panel.getProject()).getModules();
-                List<String> paths = new ArrayList<>();
-
-                final List<String> libraryNames = new ArrayList<String>();
-                for(Module m : modules){
-                    paths.add(Objects.requireNonNull(Objects.requireNonNull(CompilerModuleExtension.getInstance(m)).getCompilerOutputUrl()).replace("file://", ""));
-                    paths.add(Objects.requireNonNull(Objects.requireNonNull(CompilerModuleExtension.getInstance(m)).getCompilerOutputUrlForTests()).replace("file://", ""));;
-
-
-                    ModuleRootManager.getInstance(m).orderEntries().forEachLibrary(library -> {
-                        for (VirtualFile vf: library.getFiles(OrderRootType.SOURCES)){
-                            libraryNames.add(vf.getPath().replace("!/", ""));
-                        }
-                        for (VirtualFile vf: library.getFiles(OrderRootType.CLASSES)){
-                            libraryNames.add(vf.getPath().replace("!/", ""));
-                        }
-
-                        return true;
-                    });
-
-                 */
 
                 //TODO: read the config file and copy the file from outpuPat to tmp folder
                 ConfigWrapper configWrapper = new ConfigWrapper(panel.getProject().getBasePath());
@@ -117,7 +127,8 @@ public class CommitFactory extends CheckinHandlerFactory {
 
             @Override
             public ReturnResult beforeCheckin() {
-                int value;
+                final int[] value = new int[1];
+
                 // final RunManager runManager = RunManager.getInstance(panel.getProject());
 
 
@@ -126,6 +137,11 @@ public class CommitFactory extends CheckinHandlerFactory {
                 // if (value != JOptionPane.CLOSED_OPTION) {
 
                 //Executor executorToUse = DefaultRunExecutor.getRunExecutorInstance();
+
+                if(!executionListener.isFinished()){
+                    Messages.showInfoMessage("Please wait before the build has been completed", "WhatTests: Build not Yet Completed");
+                    return ReturnResult.CANCEL;
+                }
 
                 //TODO: spostare codice da qui
                 ConfigWrapper configWrapper = new ConfigWrapper(panel.getProject().getBasePath());
@@ -252,15 +268,15 @@ public class CommitFactory extends CheckinHandlerFactory {
 
                         if (exitValue != 0) {
                             Messages.showInfoMessage("Some test fails. Plese see the whaTest consolo for more information", "whatTests Test Failure");
-                            value = JOptionPane.showConfirmDialog(null, "Do you want commit anyway?", "Commit Test fails", JOptionPane.YES_NO_OPTION);
-                            if (value == 0)
+                            value[0] = JOptionPane.showConfirmDialog(null, "Do you want commit anyway?", "Commit Test fails", JOptionPane.YES_NO_OPTION);
+                            if (value[0] == 0)
                                 return super.beforeCheckin();
 
                             return ReturnResult.CANCEL;
                         } else {
                             Messages.showInfoMessage("No test fails!", "whatTests Test Pass");
-                            value = JOptionPane.showConfirmDialog(null, "Do you want commit?", "Commit Test pass", JOptionPane.YES_NO_OPTION);
-                            if (value == 0)
+                            value[0] = JOptionPane.showConfirmDialog(null, "Do you want commit?", "Commit Test pass", JOptionPane.YES_NO_OPTION);
+                            if (value[0] == 0)
                                 return super.beforeCheckin();
 
                             return ReturnResult.CANCEL;
