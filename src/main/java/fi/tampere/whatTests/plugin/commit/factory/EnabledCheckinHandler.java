@@ -7,8 +7,6 @@ import com.intellij.execution.process.OSProcessHandler;
 import com.intellij.execution.process.ProcessHandlerFactory;
 import com.intellij.execution.process.ProcessTerminatedListener;
 import com.intellij.execution.ui.ConsoleView;
-import com.intellij.internal.statistic.collectors.fus.fileTypes.FileTypeUsageCounterCollector;
-import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
@@ -23,8 +21,7 @@ import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 import fi.tampere.whatTests.ConfigWrapper;
-import fi.tampere.whatTests.plugin.build.listener.MyExecutionListener;
-import fi.tampere.whatTests.plugin.config.PluginConfigWrapper;
+import fi.tampere.whatTests.plugin.build.listener.MyCompilerListener;
 import fi.tampere.whatTests.plugin.util.Util;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
@@ -39,20 +36,18 @@ import java.util.Objects;
 
 public class EnabledCheckinHandler extends CheckinHandler {
       Project project;
-     MyExecutionListener executionListener;
+     MyCompilerListener executionListener;
     
-      public EnabledCheckinHandler(Project project, MyExecutionListener executionListener) {
+      public EnabledCheckinHandler(Project project, MyCompilerListener compilerListener) {
           this.project = project;
-          this.executionListener = executionListener;
+          this.executionListener = compilerListener;
 
       }
 
         @Override
         public void checkinSuccessful() {
 
-           
 
-                //TODO: read the config file and copy the file from outpuPat to tmp folder
                 ConfigWrapper configWrapper = new ConfigWrapper(project.getBasePath());
                 String tempFolder = configWrapper.getCONFIG().getTempFolderPath();
                 List<String> classPath = configWrapper.getCONFIG().getOutputPath();
@@ -73,7 +68,7 @@ public class EnabledCheckinHandler extends CheckinHandler {
            
 
 
-            final int[] value = new int[1];
+            int value;
 
             // final RunManager runManager = RunManager.getInstance(project);
 
@@ -106,14 +101,8 @@ public class EnabledCheckinHandler extends CheckinHandler {
             }
 
             try {
-                //ExecutionEnvironmentBuilder.create(project, executorToUse, configs.get(value)).build();
-
-
-
-
 
                 ProjectJdkTable jdkTable = ProjectJdkTable.getInstance();
-                String jdkPath = "";
 
                 Sdk[] sq = jdkTable.getAllJdks();
                 String Java8InstallationPath = "";
@@ -181,58 +170,22 @@ public class EnabledCheckinHandler extends CheckinHandler {
                     };
                     exitValue = ProgressManager.getInstance().run(task1);
 
-/*
-                            ProcessBuilder pb = new ProcessBuilder(binJava8, "-jar", whatTestTmpPath, project.getBasePath());
-                            Process p = pb.start();
-                            p.waitFor();
-
-
-                            BufferedReader reader =
-                                new BufferedReader(new InputStreamReader(p.getInputStream()));
-                        StringBuilder builder = new StringBuilder();
-                        String line = null;
-                        while ((line = reader.readLine()) != null) {
-                            consoleView.print(line + "\n", ConsoleViewContentType.NORMAL_OUTPUT);
-                            builder.append(line);
-                            builder.append(System.getProperty("line.separator"));
-                        }
-
-                        String result = builder.toString();
-
-
-                        reader =
-                                new BufferedReader(new InputStreamReader(p.getErrorStream()));
-                        builder = new StringBuilder();
-                        line = null;
-                        while ((line = reader.readLine()) != null) {
-                            consoleView.print(line + "\n", ConsoleViewContentType.ERROR_OUTPUT);
-                            builder.append(line);
-                            builder.append(System.getProperty("line.separator"));
-                        }
-                        result = builder.toString();
-                        */
-
                     if (exitValue != 0) {
                         Messages.showInfoMessage("Some test fails. Plese see the whaTest consolo for more information", "whatTests Test Failure");
-                        value[0] = JOptionPane.showConfirmDialog(null, "Do you want commit anyway?", "Commit Test fails", JOptionPane.YES_NO_OPTION);
-                        if (value[0] == 0)
-                            return super.beforeCheckin();
+                        value = JOptionPane.showConfirmDialog(null, "Do you want commit anyway?", "Commit Test fails", JOptionPane.YES_NO_OPTION);
 
-                        return CheckinHandler.ReturnResult.CANCEL;
                     } else {
                         Messages.showInfoMessage("No test fails!", "whatTests Test Pass");
-                        value[0] = JOptionPane.showConfirmDialog(null, "Do you want commit?", "Commit Test pass", JOptionPane.YES_NO_OPTION);
-                        if (value[0] == 0)
-                            return super.beforeCheckin();
+                        value = JOptionPane.showConfirmDialog(null, "Do you want commit?", "Commit Test pass", JOptionPane.YES_NO_OPTION);
 
-                        return CheckinHandler.ReturnResult.CANCEL;
                     }
+                    if (value == 0)
+                        return super.beforeCheckin();
+                    return ReturnResult.CANCEL;
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            //}
-
             return super.beforeCheckin();
         }
 
