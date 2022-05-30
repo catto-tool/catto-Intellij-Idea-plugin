@@ -6,11 +6,14 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 public class PluginConfigWrapper {
 
     private static PluginConfiguration CONFIG;
     private String CONFIG_RELATIVE_PATH = ".whatTests" + File.separator + "pluginConfiguration.yaml";
+    private String folder =".whatTests";
+    private String basePath;
 
     private String path;
 
@@ -19,6 +22,7 @@ public class PluginConfigWrapper {
         try {
 
             this.path = path + File.separator + CONFIG_RELATIVE_PATH;
+            this.basePath = path;
             this.setConfig();
 
         } catch (UnsupportedOperationException e) {
@@ -37,18 +41,21 @@ public class PluginConfigWrapper {
         File f = new File(path);
 
         if(!f.exists()){
+            File folder = new File(Paths.get(basePath, this.folder).toString());
+            folder.mkdirs();
+            f.createNewFile();
             FileWriter fWriter = new FileWriter(f);
             PluginConfiguration pluginConfiguration = new PluginConfiguration();
             fWriter.write(pluginConfiguration.toString());
+            fWriter.close();
             CONFIG = pluginConfiguration;
         }else
             CONFIG = om.readValue(f, PluginConfiguration.class);
     }
 
-    public void updateConfig(PluginConfiguration pluginConfiguration) throws IOException {
+    public void updateConfig() throws IOException {
         ObjectMapper om = new ObjectMapper(new YAMLFactory());
-        om.writeValue(new File(path), pluginConfiguration);
-        CONFIG = pluginConfiguration;
+        om.writeValue(new File(path), CONFIG);
     }
 
 }

@@ -46,20 +46,9 @@ public class EnabledCheckinHandler extends CheckinHandler {
 
         @Override
         public void checkinSuccessful() {
+          Util.copyClassesInTmp(project);
 
 
-                ConfigWrapper configWrapper = new ConfigWrapper(project.getBasePath());
-                String tempFolder = configWrapper.getCONFIG().getTempFolderPath();
-                List<String> classPath = configWrapper.getCONFIG().getOutputPath();
-                for (String cp : classPath) {
-                    try {
-                        File src = new File(cp);
-                        File dest = new File(Paths.get(project.getBasePath(), tempFolder).toString());
-                        FileUtils.copyDirectory(src, dest);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
             
         }
 
@@ -69,16 +58,6 @@ public class EnabledCheckinHandler extends CheckinHandler {
 
 
             int value;
-
-            // final RunManager runManager = RunManager.getInstance(project);
-
-
-            // List<RunConfiguration> configs = runManager.getAllConfigurationsList();
-            // value= JOptionPane.showOptionDialog(null, "Choose one configuration", "Select a configuration", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, configs.toArray(), configs.get(0));
-            // if (value != JOptionPane.CLOSED_OPTION) {
-
-            //Executor executorToUse = DefaultRunExecutor.getRunExecutorInstance();
-
             if(!executionListener.isFinished()){
                 Messages.showInfoMessage("Please wait before the build has been completed", "WhatTests: Build not Yet Completed");
                 return CheckinHandler.ReturnResult.CANCEL;
@@ -117,8 +96,8 @@ public class EnabledCheckinHandler extends CheckinHandler {
                     Messages.showInfoMessage("whatTest could not find java 8 installation on yout system. Please install it and relunch the plugin", "WhatTests:JAVA V.1.8 not Installed");
                 } else {
 
-                    Path tmp = Paths.get(Objects.requireNonNull(project.getBasePath()), ".whatTests", "jarTmp");
-                    String whatTestTmpPath = Util.extractContentFromJar(Objects.requireNonNull(getClass().getClassLoader().getResource("whatTests.jar")).toString().replace("whatTests.jar", ""), tmp.toString());
+                    //TODO: gestire meglio i path
+                    String whatTestTmpPath = Paths.get(project.getBasePath(), Util.WHATESTS_JAR_FILE_RELATIVE_PATH).toString();
 
                     String binJava8 = Paths.get(Java8InstallationPath, "bin", "java").toString();
 

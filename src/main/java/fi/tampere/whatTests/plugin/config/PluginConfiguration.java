@@ -2,25 +2,37 @@ package fi.tampere.whatTests.plugin.config;
 
 
 public class PluginConfiguration {
-    private boolean enable = true;
+    private static boolean enabled = true;
 
-    PluginConfiguration(){
+    private static boolean initialized = false;
+
+    public PluginConfiguration(){
     }
 
-    public PluginConfiguration(boolean enable){
-        this.enable = enable;
+    private PluginConfiguration(boolean enabled, boolean initialized){
+        PluginConfiguration.enabled = enabled;
+        PluginConfiguration.initialized = initialized;
+
     }
 
-    public boolean isEnable() {
-        return enable;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setEnable(boolean enable) {
-        this.enable = enable;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    public void setInitialized(boolean initialized) {
+        PluginConfiguration.initialized = initialized;
     }
 
     @Override
     public String toString() {
-        return "enable: true";
+        return "enabled: " + enabled + System.lineSeparator()  +"initialized: " + initialized;
     }
 }

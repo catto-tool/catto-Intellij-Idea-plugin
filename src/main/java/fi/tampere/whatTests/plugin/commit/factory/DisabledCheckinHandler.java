@@ -21,7 +21,6 @@ import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 import fi.tampere.whatTests.ConfigWrapper;
-import fi.tampere.whatTests.plugin.build.listener.MyExecutionListener;
 import fi.tampere.whatTests.plugin.util.Util;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
