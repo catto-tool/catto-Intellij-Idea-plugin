@@ -20,7 +20,6 @@ import com.intellij.task.*;
 import com.intellij.testFramework.CompilerTester;
 import com.intellij.util.messages.MessageBusConnection;
 import fi.tampere.whatTests.plugin.build.listener.MyCompilerListener;
-import fi.tampere.whatTests.plugin.build.listener.MyExecutionListener;
 import fi.tampere.whatTests.plugin.config.PluginConfigWrapper;
 import org.apache.maven.model.Build;
 import org.jetbrains.annotations.Nls;
