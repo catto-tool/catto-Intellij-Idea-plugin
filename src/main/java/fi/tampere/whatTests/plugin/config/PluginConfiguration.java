@@ -2,17 +2,37 @@ package fi.tampere.whatTests.plugin.config;
 
 
 public class PluginConfiguration {
-    private static boolean enabled = true;
 
-    private static boolean initialized = false;
-
-    public PluginConfiguration(){
+    public String getJarPath() {
+        return jarPath;
     }
 
-    private PluginConfiguration(boolean enabled, boolean initialized){
-        PluginConfiguration.enabled = enabled;
-        PluginConfiguration.initialized = initialized;
+    private  String jarPath;
 
+    private  boolean enabled = true;
+
+    private boolean initialized = false;
+
+    private String projectPath;
+
+
+    private PluginConfiguration(){
+
+    }
+
+    public PluginConfiguration(boolean enabled, boolean initialized, String projectPath, String jarPath){
+        this.enabled = enabled;
+        this.initialized = initialized;
+        this.projectPath = projectPath;
+        this.jarPath = jarPath;
+    }
+
+    public void setProjectPath(String projectPath) {
+        this.projectPath = projectPath;
+    }
+
+    public String getProjectPath() {
+        return projectPath;
     }
 
     public boolean isEnabled() {
@@ -28,11 +48,15 @@ public class PluginConfiguration {
     }
 
     public void setInitialized(boolean initialized) {
-        PluginConfiguration.initialized = initialized;
+        this.initialized = initialized;
     }
 
     @Override
     public String toString() {
-        return "enabled: " + enabled + System.lineSeparator()  +"initialized: " + initialized;
+        return "enabled: " + enabled + System.lineSeparator()  + "initialized: " + initialized + System.lineSeparator() + "basePath: " + projectPath + System.lineSeparator() + "jarPath: " + jarPath;
+        //return "enabled: " + enabled + System.lineSeparator()  + "initialized: " + initialized;
+
     }
+
+
 }

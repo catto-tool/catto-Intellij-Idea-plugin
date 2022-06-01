@@ -4,8 +4,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
-import fi.tampere.whatTests.plugin.config.PluginConfigWrapper;
-import fi.tampere.whatTests.plugin.config.PluginConfiguration;
+import fi.tampere.whatTests.plugin.config.PluginConfigurationWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,12 +51,10 @@ public class EnableWhatTestsPlugin extends AnAction {
      */
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
-        // Using the event, create and show a dialog
         Project currentProject = event.getProject();
-        PluginConfigWrapper pluginConfigWrapper = new PluginConfigWrapper(currentProject.getBasePath());
-        pluginConfigWrapper.getConfig().setEnabled(true);
+        PluginConfigurationWrapper pluginConfigurationWrapper = new PluginConfigurationWrapper(event.getProject());
         try {
-            pluginConfigWrapper.updateConfig();
+            pluginConfigurationWrapper.setEnabled(true);
         } catch (IOException e) {
             Messages.showMessageDialog(currentProject, "An error occurred: It is not possible enabled whatTestPlugin", "WhatTests:Error" , Messages.getErrorIcon());
         }

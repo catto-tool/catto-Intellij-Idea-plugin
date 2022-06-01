@@ -24,6 +24,8 @@
     <extensions defaultExtensionNs="com.intellij">
         <notificationGroup id="whatTests.plugin.notification"
                            displayType="BALLOON"/>
+        <postStartupActivity
+                implementation="fi.tampere.whatTests.plugin.PluginStartupActivity" />
     </extensions>
 
     <actions>
@@ -45,6 +47,7 @@
 
 
     <application-components>
+
         <!-- Add your application components here -->
     </application-components>
 

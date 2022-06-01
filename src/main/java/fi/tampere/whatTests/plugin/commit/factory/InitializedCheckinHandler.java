@@ -18,65 +18,41 @@ import com.intellij.openapi.vcs.checkin.CheckinHandler;
 import com.intellij.openapi.wm.RegisterToolWindowTask;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowManager;
+import com.intellij.task.ProjectTaskManager;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 import fi.tampere.whatTests.ConfigWrapper;
 import fi.tampere.whatTests.plugin.build.listener.MyCompilerListener;
-import fi.tampere.whatTests.plugin.util.Util;
+
+
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Objects;
 
-public class EnabledCheckinHandler extends CheckinHandler {
-      Project project;
-     MyCompilerListener executionListener;
-    
-      public EnabledCheckinHandler(Project project, MyCompilerListener compilerListener) {
-          this.project = project;
+public class InitializedCheckinHandler extends CheckInHandler {
+
+    MyCompilerListener executionListener;
+    String jarPath;
+
+      public InitializedCheckinHandler(Project project, MyCompilerListener compilerListener, String jarPath) {
+          super(project);
           this.executionListener = compilerListener;
+          this.jarPath = jarPath;
 
       }
 
         @Override
-        public void checkinSuccessful() {
-          Util.copyClassesInTmp(project);
-
-
-            
-        }
-
-        @Override
         public CheckinHandler.ReturnResult beforeCheckin() {
-           
-
-
             int value;
+
             if(!executionListener.isFinished()){
                 Messages.showInfoMessage("Please wait before the build has been completed", "WhatTests: Build not Yet Completed");
                 return CheckinHandler.ReturnResult.CANCEL;
-            }
-
-            //TODO: spostare codice da qui
-            ConfigWrapper configWrapper = new ConfigWrapper(project.getBasePath());
-            String tempFolder = Paths.get(project.getBasePath(), configWrapper.getCONFIG().getTempFolderPath()).toString();
-            if(!new File(tempFolder).exists()){
-                List<String> classPath = configWrapper.getCONFIG().getOutputPath();
-                for(String cp : classPath ){
-                    try {
-                        File src = new File(cp);
-                        File dest = new File(tempFolder);
-                        FileUtils.copyDirectory(src, dest);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
             }
 
             try {
@@ -96,11 +72,9 @@ public class EnabledCheckinHandler extends CheckinHandler {
                     Messages.showInfoMessage("whatTest could not find java 8 installation on yout system. Please install it and relunch the plugin", "WhatTests:JAVA V.1.8 not Installed");
                 } else {
 
-                    //TODO: gestire meglio i path
-                    String whatTestTmpPath = Paths.get(project.getBasePath(), Util.WHATESTS_JAR_FILE_RELATIVE_PATH).toString();
+
 
                     String binJava8 = Paths.get(Java8InstallationPath, "bin", "java").toString();
-
                     ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow("whatTests");
                     if (toolWindow == null) {
                         //toolWindow = ToolWindowManager.getInstance(project).registerToolWindow(RegisterToolWindowTask.closable("whatTests", IconLoader.findIcon(getClass().getClassLoader().getResource("close.svg"))));
@@ -135,7 +109,7 @@ public class EnabledCheckinHandler extends CheckinHandler {
                         protected Integer compute(@NotNull ProgressIndicator indicator) throws Exception {
                             OSProcessHandler processHandler = null;
                             try {
-                                processHandler = ProcessHandlerFactory.getInstance().createColoredProcessHandler(new GeneralCommandLine(binJava8, "-jar", whatTestTmpPath, project.getBasePath()));
+                                processHandler = ProcessHandlerFactory.getInstance().createColoredProcessHandler(new GeneralCommandLine(binJava8, "-jar", jarPath , project.getBasePath()));
                             } catch (ExecutionException e) {
                                 throw new RuntimeException(e);
                             }
@@ -167,6 +141,36 @@ public class EnabledCheckinHandler extends CheckinHandler {
             }
             return super.beforeCheckin();
         }
+
+
+    private void copyClassesInTmp(Project project){
+        //create the object to read the options of whatTests (jar)
+        ConfigWrapper configWrapper = new ConfigWrapper(project.getBasePath());
+        //read path of the tmp folder
+        String tempFolder = configWrapper.getCONFIG().getTempFolderPath();
+        //read the path of the output folder
+        List<String> classPath = configWrapper.getCONFIG().getOutputPath();
+        //copy all files in the output path in the tmp folder
+        for (String cp : classPath) {
+            try {
+                File src = new File(cp);
+                File dest = new File(Paths.get(project.getBasePath(), tempFolder).toString());
+                if(!dest.exists()){
+                    dest.mkdirs();
+                }
+                if(!src.exists()){
+                    ProjectTaskManager.getInstance(project).buildAllModules().onSuccess(result -> copyClassesInTmp(project));
+                }else {
+                    FileUtils.copyDirectory(src, dest);
+                }
+            } catch (IOException ignored) {
+
+            }
+        }
+    }
+
+
+
 
 
     };

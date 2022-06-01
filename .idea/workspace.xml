@@ -4,17 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bad9a15-8f4c-4475-9403-48f916422bd7" name="Changes" comment="foxed build problem caused by previous commit.">
+    <list default="true" id="2bad9a15-8f4c-4475-9403-48f916422bd7" name="Changes" comment="fixed #4. related to #5 &#10;added initialize workflow. TODO: improve, is a little dirty. &#10;TODO: manage better the paths and the basePath; light refactor done.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/PluginStartupActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/CheckInHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/config/PluginConfigurationWrapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/CommitFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/CommitFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/DisabledCheckinHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/DisabledCheckinHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/EnabledCheckinHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/EnabledCheckinHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/config/PluginConfigWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/config/PluginConfigWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/DisabledCheckinHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/EnabledCheckinHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/InitializedCheckinHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/config/PluginConfigWrapper.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/config/PluginConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/config/PluginConfiguration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/menu/tools/options/DisableWhatTestsPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/menu/tools/options/DisableWhatTestsPlugin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/menu/tools/options/EnableWhatTestsPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/menu/tools/options/EnableWhatTestsPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/util/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/util/Util.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/whatTests.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/util/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/util/Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,42 +96,42 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/ncdaam/IdeaProjects/whatTestsPlugin/src/main/resources/META-INF",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.4448276",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/ncdaam/IdeaProjects/whatTestsPlugin/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.4448276&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="fi.tampere.whatTests" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/META-INF" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
+      <recent name="$PROJECT_DIR$/src/main/resources/META-INF" />
       <recent name="$PROJECT_DIR$/src/main/java/com/example/demo" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/src/main" />
-      <recent name="$PROJECT_DIR$" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="fi.tampere.whatTests.plugin.build.listener" />
       <recent name="fi.tampere.whatTests.plugin.commit.factory" />
+      <recent name="fi.tampere.whatTests.plugin.build.listener" />
       <recent name="fi.tampere.whatTests" />
     </key>
   </component>
@@ -200,7 +203,8 @@
       <workItem from="1653556940301" duration="12448000" />
       <workItem from="1653597095235" duration="39326000" />
       <workItem from="1653696860509" duration="5176000" />
-      <workItem from="1653910216908" duration="18464000" />
+      <workItem from="1653910216908" duration="58541000" />
+      <workItem from="1654020781613" duration="21977000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1653465050689</created>
@@ -314,7 +318,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653923242549</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="fixed #4. related to #5 &#10;added initialize workflow. TODO: improve, is a little dirty. &#10;TODO: manage better the paths and the basePath; light refactor done.">
+      <created>1653935519127</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1653935519127</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -346,7 +357,8 @@
     <MESSAGE value="related to issue #1. &#10;Added notification when the build process is started and is terminated; refactoring." />
     <MESSAGE value="fixed #1. &#10;Using class ProjectTaskManager to build the project (without executing it);light refactoring." />
     <MESSAGE value="foxed build problem caused by previous commit." />
-    <option name="LAST_COMMIT_MESSAGE" value="foxed build problem caused by previous commit." />
+    <MESSAGE value="fixed #4. related to #5 &#10;added initialize workflow. TODO: improve, is a little dirty. &#10;TODO: manage better the paths and the basePath; light refactor done." />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed #4. related to #5 &#10;added initialize workflow. TODO: improve, is a little dirty. &#10;TODO: manage better the paths and the basePath; light refactor done." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -362,59 +374,33 @@
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/util/Util.java</url>
-          <line>102</line>
-          <option name="timeStamp" value="74" />
+          <url>file://$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/PluginStartupActivity.java</url>
+          <line>19</line>
+          <option name="timeStamp" value="103" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.2/893e80ed562ac011eba527c13b64627ed6974c36/ideaIC-2021.2-sources.jar!/com/intellij/execution/impl/ExecutionManagerImpl.kt</url>
-          <line>464</line>
-          <option name="timeStamp" value="51" />
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/CheckInHandler.java</url>
+          <line>22</line>
+          <option name="timeStamp" value="110" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.2/893e80ed562ac011eba527c13b64627ed6974c36/ideaIC-2021.2-sources.jar!/com/intellij/execution/impl/ExecutionManagerImpl.kt</url>
-          <line>521</line>
-          <option name="timeStamp" value="54" />
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/CommitFactory.java</url>
+          <line>54</line>
+          <option name="timeStamp" value="111" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.2/893e80ed562ac011eba527c13b64627ed6974c36/ideaIC-2021.2-sources.jar!/com/intellij/execution/impl/ExecutionManagerImpl.kt</url>
-          <line>515</line>
-          <option name="timeStamp" value="55" />
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/InitializedCheckinHandler.java</url>
+          <line>76</line>
+          <option name="timeStamp" value="117" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.2/893e80ed562ac011eba527c13b64627ed6974c36/ideaIC-2021.2-sources.jar!/com/intellij/execution/impl/ExecutionManagerImpl.kt</url>
-          <line>516</line>
-          <option name="timeStamp" value="56" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.2/893e80ed562ac011eba527c13b64627ed6974c36/ideaIC-2021.2-sources.jar!/com/intellij/execution/impl/ExecutionManagerImpl.kt</url>
-          <line>528</line>
-          <option name="timeStamp" value="58" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.2/893e80ed562ac011eba527c13b64627ed6974c36/ideaIC-2021.2-sources.jar!/com/intellij/execution/impl/ExecutionManagerImpl.kt</url>
-          <line>529</line>
-          <option name="timeStamp" value="59" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.2/893e80ed562ac011eba527c13b64627ed6974c36/ideaIC-2021.2-sources.jar!/com/intellij/execution/impl/ExecutionManagerImpl.kt</url>
-          <line>530</line>
-          <option name="timeStamp" value="60" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.2/893e80ed562ac011eba527c13b64627ed6974c36/ideaIC-2021.2-sources.jar!/com/intellij/execution/impl/ExecutionManagerImpl.kt</url>
-          <line>539</line>
-          <option name="timeStamp" value="61" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.2/893e80ed562ac011eba527c13b64627ed6974c36/ideaIC-2021.2-sources.jar!/com/intellij/execution/impl/ExecutionManagerImpl.kt</url>
-          <line>542</line>
-          <option name="timeStamp" value="62" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.2/893e80ed562ac011eba527c13b64627ed6974c36/ideaIC-2021.2-sources.jar!/com/intellij/execution/impl/ExecutionManagerImpl.kt</url>
-          <line>543</line>
-          <option name="timeStamp" value="63" />
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/CommitFactory.java</url>
+          <line>24</line>
+          <properties class="fi.tampere.whatTests.plugin.commit.factory.CommitFactory" method="createHandler">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="108" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
