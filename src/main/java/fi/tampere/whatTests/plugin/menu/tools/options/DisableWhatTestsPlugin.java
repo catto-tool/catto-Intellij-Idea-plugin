@@ -55,7 +55,7 @@ public class DisableWhatTestsPlugin extends AnAction {
         Project currentProject = event.getProject();
         PluginConfigurationWrapper pluginConfigurationWrapper = new PluginConfigurationWrapper(event.getProject());
         try {
-            pluginConfigurationWrapper.setEnabled(true);
+            pluginConfigurationWrapper.setEnabled(false);
         } catch (IOException e) {
             Messages.showMessageDialog(currentProject, "An error occurred: It is not possible disabled whatTestPlugin", "WhatTests:Error" , Messages.getErrorIcon());
         }

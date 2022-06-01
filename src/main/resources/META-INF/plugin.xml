@@ -29,10 +29,9 @@
     </extensions>
 
     <actions>
-
         <!-- Actions to enable/disabled plugin -->
         <group id="org.intellij.sdk.action.GroupedActions"
-               text="whatTestsPlugin" description="WhatTests plugin option"
+               text="WhatTestsPlugin" description="WhatTests plugin option"
                popup="true" >
             <add-to-group group-id="ToolsMenu" anchor="first"/>
             <action id="enableWhatTestsPlugin" class="fi.tampere.whatTests.plugin.menu.tools.options.EnableWhatTestsPlugin"

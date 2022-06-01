@@ -4,6 +4,7 @@ import com.intellij.notification.NotificationGroupManager;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
 import com.intellij.openapi.vcs.changes.CommitContext;
 import com.intellij.openapi.vcs.checkin.CheckinHandler;
@@ -40,7 +41,7 @@ public class CommitFactory extends CheckinHandlerFactory {
             if(!ifClassesInTmp(panel.getProject())) {
                 NotificationGroupManager.getInstance()
                         .getNotificationGroup("whatTests.plugin.notification")
-                        .createNotification("There are no previous commit to analyze. Please proceed to the commit. WhatTests plugin will be available from the next commit.", NotificationType.INFORMATION)
+                        .createNotification("There are no previous commit to analyze. Please proceed to the commit. WhatTests plugin will be available from the next commit.", NotificationType.WARNING)
                         .setTitle("WhatTests: no previous commit to analyze")
                         .notify(panel.getProject());
                 //return the default CheckinHandler
