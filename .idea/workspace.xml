@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bad9a15-8f4c-4475-9403-48f916422bd7" name="Changes" comment="fixed #5. &#10;added initialization workflow; done refactor.">
+    <list default="true" id="2bad9a15-8f4c-4475-9403-48f916422bd7" name="Changes" comment="fixed bug related to enable/disable options. changed icon from notification to warning when tmp folder is empty.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/CommitFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/CommitFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/menu/tools/options/DisableWhatTestsPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/menu/tools/options/DisableWhatTestsPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/Util.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/InitializedCheckinHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/InitializedCheckinHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/whatTests.jar" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/whatTests.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,7 +194,8 @@
       <workItem from="1653597095235" duration="39326000" />
       <workItem from="1653696860509" duration="5176000" />
       <workItem from="1653910216908" duration="58541000" />
-      <workItem from="1654020781613" duration="25658000" />
+      <workItem from="1654020781613" duration="25809000" />
+      <workItem from="1654163008509" duration="3092000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1653465050689</created>
@@ -324,7 +323,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654087129797</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="fixed bug related to enable/disable options. changed icon from notification to warning when tmp folder is empty.">
+      <created>1654098784165</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1654098784165</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -358,7 +364,8 @@
     <MESSAGE value="foxed build problem caused by previous commit." />
     <MESSAGE value="fixed #4. related to #5 &#10;added initialize workflow. TODO: improve, is a little dirty. &#10;TODO: manage better the paths and the basePath; light refactor done." />
     <MESSAGE value="fixed #5. &#10;added initialization workflow; done refactor." />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed #5. &#10;added initialization workflow; done refactor." />
+    <MESSAGE value="fixed bug related to enable/disable options. changed icon from notification to warning when tmp folder is empty." />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed bug related to enable/disable options. changed icon from notification to warning when tmp folder is empty." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

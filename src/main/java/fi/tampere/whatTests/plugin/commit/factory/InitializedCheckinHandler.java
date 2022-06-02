@@ -122,15 +122,19 @@ public class InitializedCheckinHandler extends CheckInHandler {
                         }
                     };
                     exitValue = ProgressManager.getInstance().run(task1);
-
-                    if (exitValue != 0) {
-                        Messages.showInfoMessage("Some test fails. Plese see the whaTest consolo for more information", "whatTests Test Failure");
-                        value = JOptionPane.showConfirmDialog(null, "Do you want commit anyway?", "Commit Test fails", JOptionPane.YES_NO_OPTION);
-
-                    } else {
-                        Messages.showInfoMessage("No test fails!", "whatTests Test Pass");
+                    if (exitValue == -1) {
+                        Messages.showErrorDialog("WhatTests terminated with errors. See the console for more information", "WhatTests: Error");
+                        value = JOptionPane.showConfirmDialog(null, "Do you want commit?", "Commit Test pass", JOptionPane.YES_NO_OPTION);
+                    }else if(exitValue == 2){
+                        Messages.showInfoMessage("No test to execute found.", "WhatTests No Test to Execute");
+                        value = JOptionPane.showConfirmDialog(null, "Do you want commit anyway?", "Commit No Test", JOptionPane.YES_NO_OPTION);
+                    } else if(exitValue == 0) {
+                        Messages.showInfoMessage("No test fails!", "WhatTests Test Pass");
                         value = JOptionPane.showConfirmDialog(null, "Do you want commit?", "Commit Test pass", JOptionPane.YES_NO_OPTION);
 
+                    }else {
+                        Messages.showWarningDialog("Some test fails. Please see the whaTest console for more information", "WhatTests Test Failure");
+                        value = JOptionPane.showConfirmDialog(null, "Do you want commit anyway?", "Commit Test fails", JOptionPane.YES_NO_OPTION);
                     }
                     if (value == 0)
                         return super.beforeCheckin();
