@@ -1,10 +1,11 @@
 plugins {
     id("java")
-    id("org.jetbrains.intellij") version "1.4.0"
+    id("org.jetbrains.intellij") version "1.6.0"
+
 }
 
 group = "fi.tampere"
-version = "1.0-SNAPSHOT"
+version = "1.1.4-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -12,10 +13,9 @@ repositories {
 
 // Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
 intellij {
-    version.set("2021.2")
+    version.set("2022.1")
     type.set("IC") // Target IDE Platform
-
-    plugins.set(listOf(/* Plugin Dependencies */))
+    plugins.set(listOf("com.intellij.java"))
 }
 
 dependencies {
@@ -23,18 +23,8 @@ dependencies {
     implementation("org.soot-oss:soot:4.3.0"){
         exclude("org.slf4j", "slf4j-api")
     }
-    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.0-M1")
-    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0-M1")
-    testImplementation( "org.junit.platform:junit-platform-launcher:1.9.0-M1")
-    //implementation(files("whatTest.jar"))
-
-
-
-
-
 }
+
 
 tasks {
     // Set the JVM compatibility versions

@@ -4,10 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bad9a15-8f4c-4475-9403-48f916422bd7" name="Changes" comment="fixed bug related to enable/disable options. changed icon from notification to warning when tmp folder is empty.">
+    <list default="true" id="2bad9a15-8f4c-4475-9403-48f916422bd7" name="Changes" comment="Fixed #7. &#10;Added return values to handle whaTests error, test failure, test succeeded amd mp test found.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/InitializedCheckinHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/InitializedCheckinHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/whatTests.jar" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/whatTests.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/ConfigWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/ConfigWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/Configurator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/Configurator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/PluginStartupActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/PluginStartupActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/build/listener/MyCompilerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/build/listener/MyCompilerListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/CheckInHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/commit/factory/CheckInHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/CommitFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/commit/factory/CommitFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/InitializedCheckinHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/commit/factory/InitializedCheckinHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/config/PluginConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/config/PluginConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/config/PluginConfigurationWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/config/PluginConfigurationWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/menu/tools/options/DisableWhatTestsPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/menu/tools/options/DisableCATTOPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/menu/tools/options/EnableWhatTestsPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/menu/tools/options/EnableCATTOPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/pluginIcon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/pluginIcon.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/whatTests.jar" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/CATTO.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whatTests.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/withclasspathupdater/whatTest.jar" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +68,17 @@
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="intellij" type="c8890929:TasksNode$1" />
               </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="whatTestsPlugin" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="other" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="whatTestsPlugin" type="f1a62948:ProjectNode" />
+                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
+              </path>
             </expand>
             <select />
           </tree_state>
@@ -69,6 +95,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.2/893e80ed562ac011eba527c13b64627ed6974c36/ideaIC-2021.2-sources.jar!/com/intellij/execution/filters/ConsoleFilterProvider.java" root0="SKIP_INSPECTION" />
   </component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
@@ -101,7 +130,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.4448276&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -115,6 +144,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/META-INF" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/src/main" />
@@ -125,8 +155,34 @@
       <recent name="fi.tampere.whatTests" />
     </key>
   </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="gradlew cleanBuildCache" />
+    </option>
+  </component>
   <component name="RunManager" selected="Gradle.whatTestsPlugin [runIde]">
-    <configuration name="whatTestsPlugin [runIdeForUiTests]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="whatTestsPlugin [buildPlugin]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--stacktrace" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="buildPlugin" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="whatTestsPlugin [buildSearchableOptions]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -137,7 +193,49 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="runIdeForUiTests" />
+            <option value="buildSearchableOptions" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="whatTestsPlugin [cleanBuildCache]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="cleanBuildCache" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="whatTestsPlugin [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -171,7 +269,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.whatTestsPlugin [runIde]" />
-        <item itemvalue="Gradle.whatTestsPlugin [runIdeForUiTests]" />
+        <item itemvalue="Gradle.whatTestsPlugin [clean]" />
+        <item itemvalue="Gradle.whatTestsPlugin [cleanBuildCache]" />
+        <item itemvalue="Gradle.whatTestsPlugin [buildSearchableOptions]" />
+        <item itemvalue="Gradle.whatTestsPlugin [buildPlugin]" />
       </list>
     </recent_temporary>
   </component>
@@ -195,7 +296,16 @@
       <workItem from="1653696860509" duration="5176000" />
       <workItem from="1653910216908" duration="58541000" />
       <workItem from="1654020781613" duration="25809000" />
-      <workItem from="1654163008509" duration="3092000" />
+      <workItem from="1654163008509" duration="3766000" />
+      <workItem from="1654244499585" duration="7029000" />
+      <workItem from="1654424364306" duration="3834000" />
+      <workItem from="1654613795277" duration="2399000" />
+      <workItem from="1654618764104" duration="369000" />
+      <workItem from="1654619144404" duration="2620000" />
+      <workItem from="1654700839546" duration="59000" />
+      <workItem from="1654700908112" duration="596000" />
+      <workItem from="1654702214574" duration="1406000" />
+      <workItem from="1654860991657" duration="9866000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1653465050689</created>
@@ -330,7 +440,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654098784165</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Fixed #7. &#10;Added return values to handle whaTests error, test failure, test succeeded amd mp test found.">
+      <created>1654169131532</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1654169131532</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -365,7 +482,8 @@
     <MESSAGE value="fixed #4. related to #5 &#10;added initialize workflow. TODO: improve, is a little dirty. &#10;TODO: manage better the paths and the basePath; light refactor done." />
     <MESSAGE value="fixed #5. &#10;added initialization workflow; done refactor." />
     <MESSAGE value="fixed bug related to enable/disable options. changed icon from notification to warning when tmp folder is empty." />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed bug related to enable/disable options. changed icon from notification to warning when tmp folder is empty." />
+    <MESSAGE value="Fixed #7. &#10;Added return values to handle whaTests error, test failure, test succeeded amd mp test found." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed #7. &#10;Added return values to handle whaTests error, test failure, test succeeded amd mp test found." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -381,17 +499,12 @@
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/PluginStartupActivity.java</url>
-          <line>19</line>
-          <option name="timeStamp" value="103" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/menu/tools/options/DisableWhatTestsPlugin.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/menu/tools/options/DisableCATTOPlugin.java</url>
           <line>54</line>
           <option name="timeStamp" value="118" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/menu/tools/options/EnableWhatTestsPlugin.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/menu/tools/options/EnableCATTOPlugin.java</url>
           <line>53</line>
           <option name="timeStamp" value="119" />
         </line-breakpoint>

@@ -1,44 +1,45 @@
 <idea-plugin>
-    <name>whaTest</name>
-    <id>fi.tampere.whatests</id>
+    <name>CATTOplugin</name>
+    <id>fi.tampere.catto.plugin</id>
     <description><![CDATA[
-    A Plug-in for Automated Code Smell Detection and Refactoring
+    A tool for Test Case Optimization. whaTest select the tests to execute basing on the changes perform in the code between
+    two commits.  When the user commit the projext whatTest analyze the source code and identify the change in the between the
+    version of the project that the user are committing and the version of the project at the previous commit.
+    whaTest identify uses thexe information to select the tests the cover this changes and to execute these.
     ]]>
     </description>
 
     <change-notes><![CDATA[
-      Updated support for newer IntelliJ versions
-      <a href="https://github.com/simgam/cASpER">View current version.</a>
-
+      Updated description
     ]]>
     </change-notes>
 
 
 
-    <vendor url="https://www.unisa.it/" email="seschool@unisa.it">CloudSea</vendor>
+    <vendor url="https://research.tuni.fi/cloudsea/" email="dario.amorosodaragona@tuni.fi">CloudSea</vendor>
     <extensions defaultExtensionNs="com.intellij">
-        <checkinHandlerFactory implementation="fi.tampere.whatTests.plugin.commit.factory.CommitFactory"/>
+        <checkinHandlerFactory implementation="fi.tampere.catto.plugin.commit.factory.CommitFactory"/>
 
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
-        <notificationGroup id="whatTests.plugin.notification"
+        <notificationGroup id="CATTOPlugin.plugin.notification"
                            displayType="BALLOON"/>
         <postStartupActivity
-                implementation="fi.tampere.whatTests.plugin.PluginStartupActivity" />
+                implementation="fi.tampere.catto.plugin.PluginStartupActivity" />
     </extensions>
 
     <actions>
         <!-- Actions to enable/disabled plugin -->
         <group id="org.intellij.sdk.action.GroupedActions"
-               text="WhatTestsPlugin" description="WhatTests plugin option"
+               text="CATTOPlugin" description="CATTOPlugin plugin option"
                popup="true" >
             <add-to-group group-id="ToolsMenu" anchor="first"/>
-            <action id="enableWhatTestsPlugin" class="fi.tampere.whatTests.plugin.menu.tools.options.EnableWhatTestsPlugin"
-                    text="Enable" description="Enable whatTests Plugin">
+            <action id="enableCATTOPlugin" class="fi.tampere.catto.plugin.menu.tools.options.EnableCATTOPlugin"
+                    text="Enable" description="Enable CATTOPlugin">
             </action>
-            <action id="disableWhatTestsPlugin" class="fi.tampere.whatTests.plugin.menu.tools.options.DisableWhatTestsPlugin"
-                    text="Disable" description="Disable whatTests Plugin">
+            <action id="disableCATTOPlugin" class="fi.tampere.catto.plugin.menu.tools.options.DisableCATTOPlugin"
+                    text="Disable" description="Disable CATTOPlugin">
             </action>
         </group>
     </actions>
@@ -49,5 +50,9 @@
 
         <!-- Add your application components here -->
     </application-components>
+
+    <depends>com.intellij.java</depends>
+    <depends>com.intellij.modules.platform</depends>
+
 
 </idea-plugin>
