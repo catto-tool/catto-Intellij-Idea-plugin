@@ -68,26 +68,40 @@ public class InitializedCheckinHandler extends CheckInHandler {
 
 
                     String binJava8 = Paths.get(Java8InstallationPath, "bin", "java").toString();
-                    ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow("CATTOPlugin");
-                    if (toolWindow == null) {
-                        //toolWindow = ToolWindowManager.getInstance(project).registerToolWindow(RegisterToolWindowTask.closable("CATTOPlugin", IconLoader.findIcon(getClass().getClassLoader().getResource("close.svg"))));
-                        toolWindow = ToolWindowManager.getInstance(project).registerToolWindow(RegisterToolWindowTask.notClosable("CATTOPlugin"));
 
-                    }
-                    Content content = toolWindow.getContentManager().findContent("Output");
+                    //TODO: SPOSTARE LA GESTIONE E LA CREAZIONE DELLA CONSOLE IN console.CONSOLE
                     ConsoleView consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(project).getConsole();
+                    ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow("CATTOPlugin");
+                    Content content = toolWindow.getContentManager().findContent("Output");
                     if (content != null) {
                         toolWindow.getContentManager().removeContent(content, true);
-
                     }
 
+                    Content newContent = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), "Output", false);
+                    toolWindow.getContentManager().addContent(newContent);
 
 
 
-                    ContentManager contentManager = toolWindow.getContentManager().getFactory().createContentManager(true, project);
-                    content = contentManager.getFactory().createContent(consoleView.getComponent(), "Output", true);
-                    content.setCloseable(true);
-                    toolWindow.getContentManager().addContent(content);
+                 //   ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow("CATTOPlugin");
+                 //   if (toolWindow == null) {
+                        //toolWindow = ToolWindowManager.getInstance(project).registerToolWindow(RegisterToolWindowTask.closable("CATTOPlugin", IconLoader.findIcon(getClass().getClassLoader().getResource("close.svg"))));
+                       // toolWindow = ToolWindowManager.getInstance(project).registerToolWindow(RegisterToolWindowTask.notClosable("CATTOPlugin"));
+
+                 //   }
+                 //   Content content = toolWindow.getContentManager().findContent("Output");
+                 //   ConsoleView consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(project).getConsole();
+                 //   if (content != null) {
+                  //      toolWindow.getContentManager().removeContent(content, true);
+
+                  //  }
+
+
+
+
+//                    ContentManager contentManager = toolWindow.getContentManager().getFactory().createContentManager(true, project);
+ //                   content = contentManager.getFactory().createContent(consoleView.getComponent(), "Output", true);
+ //                   content.setCloseable(true);
+  //                  toolWindow.getContentManager().addContent(content);
 
 
                     toolWindow.activate(new Runnable() {

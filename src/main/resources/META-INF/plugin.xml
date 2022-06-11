@@ -1,6 +1,6 @@
 <idea-plugin>
     <name>CATTOplugin</name>
-    <id>fi.tampere.catto.plugin</id>
+    <id>fi.tampere.whatests</id>
     <description><![CDATA[
     A tool for Test Case Optimization. whaTest select the tests to execute basing on the changes perform in the code between
     two commits.  When the user commit the projext whatTest analyze the source code and identify the change in the between the
@@ -27,6 +27,7 @@
                            displayType="BALLOON"/>
         <postStartupActivity
                 implementation="fi.tampere.catto.plugin.PluginStartupActivity" />
+       <toolWindow id="CATTOPlugin" anchor="bottom" factoryClass="fi.tampere.catto.plugin.console.Console"/>
     </extensions>
 
     <actions>

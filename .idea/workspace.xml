@@ -5,24 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2bad9a15-8f4c-4475-9403-48f916422bd7" name="Changes" comment="Fixed #7. &#10;Added return values to handle whaTests error, test failure, test succeeded amd mp test found.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/console/Console.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/ConfigWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/ConfigWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/Configurator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/Configurator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/PluginStartupActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/PluginStartupActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/build/listener/MyCompilerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/build/listener/MyCompilerListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/CheckInHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/commit/factory/CheckInHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/CommitFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/commit/factory/CommitFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/commit/factory/InitializedCheckinHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/commit/factory/InitializedCheckinHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/config/PluginConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/config/PluginConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/config/PluginConfigurationWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/config/PluginConfigurationWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/menu/tools/options/DisableWhatTestsPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/menu/tools/options/DisableCATTOPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/whatTests/plugin/menu/tools/options/EnableWhatTestsPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/menu/tools/options/EnableCATTOPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/commit/factory/InitializedCheckinHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/commit/factory/InitializedCheckinHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/pluginIcon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/pluginIcon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/whatTests.jar" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/CATTO.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whatTests.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/withclasspathupdater/whatTest.jar" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,8 +80,12 @@
       </list>
     </option>
   </component>
+  <component name="Git.Rebase.Settings">
+    <option name="NEW_BASE" value="origin/master" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.2/893e80ed562ac011eba527c13b64627ed6974c36/ideaIC-2021.2-sources.jar!/com/intellij/execution/filters/ConsoleFilterProvider.java" root0="SKIP_INSPECTION" />
@@ -160,7 +151,7 @@
       <command value="gradlew cleanBuildCache" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.whatTestsPlugin [runIde]">
+  <component name="RunManager" selected="Gradle.whatTestsPlugin [buildPlugin]">
     <configuration name="whatTestsPlugin [buildPlugin]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -268,11 +259,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.whatTestsPlugin [buildPlugin]" />
         <item itemvalue="Gradle.whatTestsPlugin [runIde]" />
         <item itemvalue="Gradle.whatTestsPlugin [clean]" />
         <item itemvalue="Gradle.whatTestsPlugin [cleanBuildCache]" />
         <item itemvalue="Gradle.whatTestsPlugin [buildSearchableOptions]" />
-        <item itemvalue="Gradle.whatTestsPlugin [buildPlugin]" />
       </list>
     </recent_temporary>
   </component>
@@ -461,6 +452,36 @@
             <State />
           </value>
         </entry>
+        <entry key="e89d9cbf-d32d-48cc-b6ff-8d34be491540">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="e89d9cbf-d32d-48cc-b6ff-8d34be491540" value="TOOL_WINDOW" />
       </map>
     </option>
   </component>
@@ -507,6 +528,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/menu/tools/options/EnableCATTOPlugin.java</url>
           <line>53</line>
           <option name="timeStamp" value="119" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/fi/tampere/catto/plugin/commit/factory/InitializedCheckinHandler.java</url>
+          <line>72</line>
+          <option name="timeStamp" value="125" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
