@@ -1,5 +1,6 @@
 package fi.tampere.catto.plugin.commit.factory;
 
+import com.intellij.notification.NotificationGroup;
 import com.intellij.notification.NotificationGroupManager;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.project.Project;
@@ -14,6 +15,7 @@ import com.intellij.util.messages.MessageBusConnection;
 import fi.tampere.catto.ConfigWrapper;
 import fi.tampere.catto.plugin.build.listener.MyCompilerListener;
 import fi.tampere.catto.plugin.config.PluginConfigurationWrapper;
+import fi.tampere.catto.plugin.notification.NotificationAndMessage;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -38,11 +40,7 @@ public class CommitFactory extends CheckinHandlerFactory {
 
         if (pluginConfigurationWrapper.getConfig().isEnabled()) {
             if(!ifClassesInTmp(panel.getProject())) {
-                NotificationGroupManager.getInstance()
-                        .getNotificationGroup("CATTOPlugin.plugin.notification")
-                        .createNotification("There are no previous commit to analyze. Please proceed to the commit. CATTOPlugin plugin will be available from the next commit.", NotificationType.WARNING)
-                        .setTitle("CATTOPlugin: no previous commit to analyze")
-                        .notify(panel.getProject());
+                NotificationAndMessage.notifyNotFileInTmp(panel.getProject());
                 //return the default CheckinHandler
                 return new CheckInHandler(panel.getProject());
             }

@@ -9,6 +9,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.task.*;
 import com.intellij.util.messages.MessageBusConnection;
+import fi.tampere.catto.plugin.notification.NotificationAndMessage;
 import org.jetbrains.annotations.NotNull;
 
 public class MyCompilerListener implements ProjectTaskListener {
@@ -50,11 +51,8 @@ public class MyCompilerListener implements ProjectTaskListener {
    public void started(@NotNull ProjectTaskContext context) {
         if(myCompilerListener.isCommit) {
             ProjectTaskListener.super.started(context);
-            showMyMessage("Wait before the build is complete before commit", "CATTOPlugin: Building", project);
+           NotificationAndMessage.notifyBuildStarted(project);
         }
-
-
-
    }
 
     @Override
@@ -62,26 +60,12 @@ public class MyCompilerListener implements ProjectTaskListener {
         if(myCompilerListener.isCommit) {
             ProjectTaskListener.super.finished(result);
             myCompilerListener.finished = true;
-            showMyMessage("Now it is possible to proceed with the commit", "CATTOPlugin: Build Terminated", project);
+            NotificationAndMessage.notifyBuildCompleted(project);
             myCompilerListener.setCommit(false);
         }
-
-
-
     }
-
 
     public boolean isFinished() {
         return finished;
-    }
-
-
-    void showMyMessage(String content, String title, Project project) {
-        NotificationGroupManager.getInstance()
-                .getNotificationGroup("CATTOPlugin.plugin.notification")
-                .createNotification(content, NotificationType.INFORMATION)
-                .setTitle(title)
-                .notify(project);
-
     }
 }

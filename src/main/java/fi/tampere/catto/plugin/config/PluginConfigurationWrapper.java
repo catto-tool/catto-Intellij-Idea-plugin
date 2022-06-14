@@ -96,10 +96,11 @@ public class PluginConfigurationWrapper {
         try {
             location = new URL(JAR_FILE_ORIGINAL_PATH);
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+           throw e;
         }
-        assert location != null;
-        String jarPath = location.getPath().replace("file:", "").replace("!", "");
+
+        String jarPath = location.getPath().replace("file:", "").replace("!", "").replaceAll("%20", " ");
+
         String resultPath = "";
 
         try {
@@ -110,9 +111,11 @@ public class PluginConfigurationWrapper {
                 String jarEntryName = jarEntry.getName();
                 File entry = null;
                 if (jarEntryName.equals(JAR_NAME)) {
+
+
                     try {
                         File jarTmp = new File(TMP_JAR_FOLDER_ABSOLUTE_PATH);
-                        if(!jarTmp.exists() && !jarTmp.mkdirs()){
+                      if(!jarTmp.exists() && !jarTmp.mkdirs()){
                             throw new Exception("Error on create temp file");
                         }
                         entry = new File(TMP_JAR_FOLDER_ABSOLUTE_PATH, jarEntryName);
@@ -121,7 +124,7 @@ public class PluginConfigurationWrapper {
                         }
                         resultPath = entry.getPath();
 
-                        if (entry.createNewFile()) {
+                      //  if (entry.createNewFile()) {
 
                             FileOutputStream out = new FileOutputStream(entry);
                             byte[] buffer = new byte[1024];
@@ -134,15 +137,15 @@ public class PluginConfigurationWrapper {
                             jar.closeEntry();
                             out.flush();
                             out.close();
-                        }
+                        //}
                     } catch (Exception e) {
-                        throw new Exception("Error on create temp file");
+                        throw e;
                     }
                 }
             }
             jar.close();
         } catch (Exception e) {
-            throw new Exception("Error on create temp file");
+            throw e;
         }
     }
 

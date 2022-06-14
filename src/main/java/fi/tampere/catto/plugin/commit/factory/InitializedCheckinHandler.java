@@ -13,14 +13,12 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.ProjectJdkTable;
 import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vcs.checkin.CheckinHandler;
-import com.intellij.openapi.wm.RegisterToolWindowTask;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.ui.content.Content;
-import com.intellij.ui.content.ContentManager;
 import fi.tampere.catto.plugin.build.listener.MyCompilerListener;
+import fi.tampere.catto.plugin.notification.NotificationAndMessage;
 import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 import java.nio.file.Paths;
@@ -43,7 +41,7 @@ public class InitializedCheckinHandler extends CheckInHandler {
             int value;
 
             if(!executionListener.isFinished()){
-                Messages.showInfoMessage("Please wait before the build has been completed", "CATTOPlugin: Build not Yet Completed");
+                NotificationAndMessage.notifyBuildNotCompletedYet();
                 return CheckinHandler.ReturnResult.CANCEL;
             }
 
@@ -62,10 +60,8 @@ public class InitializedCheckinHandler extends CheckInHandler {
                 }
 
                 if (Java8InstallationPath.equals("")) {
-                    Messages.showInfoMessage("CATTOPlugin could not find java 8 installation on your system. please install it and relaunch the plugin", "CATTOPlugin:JAVA V.1.8 not Installed");
+                    NotificationAndMessage.notifyNotJava8Installed();
                 } else {
-
-
 
                     String binJava8 = Paths.get(Java8InstallationPath, "bin", "java").toString();
 
@@ -134,17 +130,16 @@ public class InitializedCheckinHandler extends CheckInHandler {
                     };
                     exitValue = ProgressManager.getInstance().run(task1);
                     if (exitValue == 1) {
-                        Messages.showErrorDialog("CATTOPlugin terminated with errors. See the CATTOPlugin for more information", "CATTOPlugin: Error");
-                        value = JOptionPane.showConfirmDialog(null, "Do you want commit?", "Commit Test pass", JOptionPane.YES_NO_OPTION);
+                        NotificationAndMessage.notifyCattoExecutionFailed();
+                        value = JOptionPane.showConfirmDialog(null, "Do you want commit?", "Commit CATTO terminated with error", JOptionPane.YES_NO_OPTION);
                     }else if(exitValue == 2){
-                        Messages.showInfoMessage("No test to execute found.", "CATTOPlugin No Test to Execute");
+                        NotificationAndMessage.notifyNoTestsFound();
                         value = JOptionPane.showConfirmDialog(null, "Do you want commit anyway?", "Commit No Test", JOptionPane.YES_NO_OPTION);
                     } else if(exitValue == 0) {
-                        Messages.showInfoMessage("No test fails!", "CATTOPlugin Test Pass");
+                        NotificationAndMessage.notifyNoTestFailed();
                         value = JOptionPane.showConfirmDialog(null, "Do you want commit?", "Commit Test pass", JOptionPane.YES_NO_OPTION);
-
                     }else {
-                        Messages.showWarningDialog("Some test fails. Please see the CATTOPlugin console for more information", "CATTOPlugin Test Failure");
+                        NotificationAndMessage.notifyTestFailure();
                         value = JOptionPane.showConfirmDialog(null, "Do you want commit anyway?", "Commit Test fails", JOptionPane.YES_NO_OPTION);
                     }
                     if (value == 0)

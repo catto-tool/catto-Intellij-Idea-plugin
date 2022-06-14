@@ -1,28 +1,30 @@
 <idea-plugin>
-    <name>CATTOplugin</name>
-    <id>fi.tampere.whatests</id>
+    <name>CATTO</name>
+    <id>fi.tampere.catto.plugin</id>
     <description><![CDATA[
-    A tool for Test Case Optimization. whaTest select the tests to execute basing on the changes perform in the code between
-    two commits.  When the user commit the projext whatTest analyze the source code and identify the change in the between the
+    A tool for Test Case Optimization. CATTO select the tests to execute basing on the changes perform in the code between
+    two commits.  When the user commit the project CATTO analyzes the source code and identify the change in the between the
     version of the project that the user are committing and the version of the project at the previous commit.
-    whaTest identify uses thexe information to select the tests the cover this changes and to execute these.
+    CATTO identify and  uses these information to select and execute the tests that cover these changes.
     ]]>
     </description>
 
     <change-notes><![CDATA[
-      Updated description
+      Updated description and name
     ]]>
     </change-notes>
 
 
 
     <vendor url="https://research.tuni.fi/cloudsea/" email="dario.amorosodaragona@tuni.fi">CloudSea</vendor>
+
+
+
+
+
     <extensions defaultExtensionNs="com.intellij">
+
         <checkinHandlerFactory implementation="fi.tampere.catto.plugin.commit.factory.CommitFactory"/>
-
-    </extensions>
-
-    <extensions defaultExtensionNs="com.intellij">
         <notificationGroup id="CATTOPlugin.plugin.notification"
                            displayType="BALLOON"/>
         <postStartupActivity
