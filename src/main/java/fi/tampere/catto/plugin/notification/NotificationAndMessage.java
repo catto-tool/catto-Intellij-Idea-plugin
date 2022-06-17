@@ -26,8 +26,6 @@ public class NotificationAndMessage {
         showMyMessage("Wait before the build is complete before commit", "CATTOPlugin: Building", project);
     }
 
-
-
     public static void notifyNotJava8Installed() {
         Messages.showInfoMessage("CATTOPlugin could not find java 8 installation on your system. please install it and relaunch the plugin", "CATTOPlugin:JAVA V.1.8 not Installed");
     }
